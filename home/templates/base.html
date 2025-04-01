@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{% endblock %}</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    {% block estilos %}
+    <link rel="stylesheet" href="{% static 'css/styles_base.css' %}" />
+    {% endblock %}
+  </head>
+  <body>
+    <header class="py-2">
+        <a href="{% url 'home:home' %}"
+        ><img src="{% static 'img/logo_vectorizado_marron.png' %}" alt="" width="50"/></a>
+        <h2><a href="{% url 'home:home' %}" class="">{% block titulo %}{% endblock %}</a></h2>
+        <nav class="navbar navbar-dark bg-body-tertiary">
+            <div class="container">
+              <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <img src="{% static 'img/logo_vectorizado_marron.png' %}" alt="" class="nav__icon nav__icon--logo"/>
+                  <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Casas de madera bálticas</h5>
+                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                  <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li class="nav-item">
+                      <a class="nav-link" aria-current="page" href="{% url 'home:home' %}">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" aria-current="page" href="#">Notificaciones</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" aria-current="page" href="#">Calendario</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" aria-current="page" href="#">Archivos</a>
+                    </li>
+                    <a href="{% url 'usuarios:perfil' %}" class="nav__element--avatar-a">
+                        <li class="nav_item nav__element--avatar">
+
+                        <img src="{% static 'img/juan.jpg' %}" alt="" class="nav__icon nav__icon--avatar">
+
+                        <div class="nav__hide">
+                            <h6 class="nav__title">Juan Fernández</h6>
+                            <p class="nav__info">Administrador</p>
+                        </div>
+
+                        </li>
+                    </a>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </nav>
+    </header>
+    <main class="container-main">
+        <div class="div-barra">
+            <aside class="sidebarra">
+                <ul class="sidebar__list">
+
+                    <li class="sidebar__element">
+
+                    <img src="{% static 'img/logo.png' %}" alt="" class="sidebar__icon sidebar__icon--logo"/>
+
+                    <div class="sidebar__hide">
+                        <p class="sidebar__logo">Intranet</p>
+                    </div>
+
+                    </li>
+
+                    <a href="{% url 'home:home' %}">
+                    <li class="sidebar__element">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" width="24" height="24" class="sidebar__icon">
+                        <path
+                            d="M23.121,9.069,15.536,1.483a5.008,5.008,0,0,0-7.072,0L.879,9.069A2.978,2.978,0,0,0,0,11.19v9.817a3,3,0,0,0,3,3H21a3,3,0,0,0,3-3V11.19A2.978,2.978,0,0,0,23.121,9.069ZM15,22.007H9V18.073a3,3,0,0,1,6,0Zm7-1a1,1,0,0,1-1,1H17V18.073a5,5,0,0,0-10,0v3.934H3a1,1,0,0,1-1-1V11.19a1.008,1.008,0,0,1,.293-.707L9.878,2.9a3.008,3.008,0,0,1,4.244,0l7.585,7.586A1.008,1.008,0,0,1,22,11.19Z"/>
+                        </svg>
+
+                        <div class="sidebar__hide">
+                        <p class="sidebar__text">Inicio</p>
+                        </div>
+
+                    </li>
+                    </a>
+
+                    <a href="">
+                    <li class="sidebar__element">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" width="24" height="24" class="sidebar__icon"><path d="M22.555,13.662l-1.9-6.836A9.321,9.321,0,0,0,2.576,7.3L1.105,13.915A5,5,0,0,0,5.986,20H7.1a5,5,0,0,0,9.8,0h.838a5,5,0,0,0,4.818-6.338ZM12,22a3,3,0,0,1-2.816-2h5.632A3,3,0,0,1,12,22Zm8.126-5.185A2.977,2.977,0,0,1,17.737,18H5.986a3,3,0,0,1-2.928-3.651l1.47-6.616a7.321,7.321,0,0,1,14.2-.372l1.9,6.836A2.977,2.977,0,0,1,20.126,16.815Z"/></svg>
+
+                    <div class="sidebar__hide">
+                        <p class="sidebar__text">Notificaciones</p>
+                    </div>
+
+                    </li>
+                    </a>
+
+                    <a href="">
+                    <li class="sidebar__element">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" width="24" height="24" class="sidebar__icon"><path d="M19,2H18V1a1,1,0,0,0-2,0V2H8V1A1,1,0,0,0,6,1V2H5A5.006,5.006,0,0,0,0,7V19a5.006,5.006,0,0,0,5,5H19a5.006,5.006,0,0,0,5-5V7A5.006,5.006,0,0,0,19,2ZM2,7A3,3,0,0,1,5,4H19a3,3,0,0,1,3,3V8H2ZM19,22H5a3,3,0,0,1-3-3V10H22v9A3,3,0,0,1,19,22Z"/><circle cx="12" cy="15" r="1.5"/><circle cx="7" cy="15" r="1.5"/><circle cx="17" cy="15" r="1.5"/></svg>
+
+                    <div class="sidebar__hide">
+                        <p class="sidebar__text">Calendario</p>
+                    </div>
+
+                    </li>
+                    </a>
+
+                    <a href="">
+                    <li class="sidebar__element">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" width="24" height="24" class="sidebar__icon"><path d="M19,3H12.472a1.019,1.019,0,0,1-.447-.1L8.869,1.316A3.014,3.014,0,0,0,7.528,1H5A5.006,5.006,0,0,0,0,6V18a5.006,5.006,0,0,0,5,5H19a5.006,5.006,0,0,0,5-5V8A5.006,5.006,0,0,0,19,3ZM5,3H7.528a1.019,1.019,0,0,1,.447.1l3.156,1.579A3.014,3.014,0,0,0,12.472,5H19a3,3,0,0,1,2.779,1.882L2,6.994V6A3,3,0,0,1,5,3ZM19,21H5a3,3,0,0,1-3-3V8.994l20-.113V18A3,3,0,0,1,19,21Z"/></svg>
+
+                    <div class="sidebar__hide">
+                        <p class="sidebar__text">Archivos</p>
+                    </div>
+
+                    </li>
+                    </a>
+
+                    <a href="{% url 'usuarios:perfil' %}" class="sidebar__element--avatar-a">
+                    <li class="sidebar__element sidebar__element--avatar">
+
+                    <img src="{% static 'img/juan.jpg' %}" alt="" class="sidebar__icon sidebar__icon--avatar">
+
+                    <div class="sidebar__hide">
+                        <h6 class="sidebar__title">Juan Fernández</h6>
+                        <p class="sidebar__info">Administrador</p>
+                    </div>
+
+                    </li>
+                    </a>
+
+                </ul>
+            </aside>
+        </div>
+        <section class="section mt-4">
+            {% block content %}{% endblock %}
+        </section>
+    </main>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</html>

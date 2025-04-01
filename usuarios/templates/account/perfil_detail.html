@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Mi perfil{% endblock %}
+
+{% block titulo %}Mi perfil{% endblock %}
+
+{% block content %}
+<div class="container perfil mt-4 py-4">
+    <div class="row">
+        <div class="col-md-6 text-center mt-4">
+            <img src="{% static 'img/juan.jpg' %}" alt="Foto de perfil" width="120">
+            <h2>Buenas, {{ user.username }}</h2>
+        </div>
+        <div class="col-md-6 mt-4">
+            <h3>Datos:</h3>
+            <ul>
+                <li><strong>Nombre: </strong>{{ user.first_name }} {{ user.last_name }}</li>
+                <li><strong>Email: </strong>{{ user.email }}</li>
+                <li><strong>Teléfono: </strong>{{ profile.telefono }}</li>
+                <li><strong>Rol: </strong>{{ profile.rol }}</li>
+                <li><strong>Fecha de nacimiento: </strong>
+                  {% if profile.fecha_nacimiento %}
+                    {{ profile.fecha_nacimiento|date:"d/m/Y" }}
+                  {% else %}
+                    No registrada
+                  {% endif %}
+                </li>
+            </ul>
+            <a href="{% url 'usuarios:edit' %}" class="btn btn-secondary">Editar perfil</a>
+            <form action="{% url 'usuarios:logout' %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger">Cerrar sesión</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

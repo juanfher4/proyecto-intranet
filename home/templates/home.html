@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block titulo %}Inicio{% endblock %}
+
+{% block content %}
+<div class="div-home">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination pagination-sm justify-content-center mt-3">
+          <li class="page-item active" aria-current="page">
+            <span class="page-link">Inicio</span>
+          </li>
+          <li class="page-item"><a class="page-link" href="{% url 'home:tasks' %}">Tareas</a></li>
+          <li class="page-item"><a class="page-link" href="#"></a></li>
+        </ul>
+    </nav>
+    <div class="cont inicio">
+        <h3 class="mt-3">Inicio</h3>
+        <p>Casas vendidas este mes: 14</p>
+    </div>
+</div>
+{% endblock %}
