@@ -17,10 +17,10 @@
     {% endblock %}
   </head>
   <body>
-    <header class="py-2">
+    <header class="header-nav py-2">
         <a href="{% url 'home:home' %}"
         ><img src="{% static 'img/logo_vectorizado_marron.png' %}" alt="" width="50"/></a>
-        <h2><a href="{% url 'home:home' %}" class="">{% block titulo %}{% endblock %}</a></h2>
+        <h2>{% block titulo %}{% endblock %}</h2>
         <nav class="navbar navbar-dark bg-body-tertiary">
             <div class="container">
               <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">

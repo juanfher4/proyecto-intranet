@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Crear Tarea{% endblock %}
+
+{% block titulo %}Crear tarea{% endblock %}
+
+{% block content %}
+<div class="div-tasks">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination pagination-sm justify-content-center mt-3">
+          <li class="page-item"><a class="page-link" href="{% url 'home:home' %}">Inicio</a></li>
+          <li class="page-item"><a class="page-link" href="{% url 'home:tasks' %}">Tareas</a></li>
+        </ul>
+    </nav>
+    <div class="tareas">
+        <form action="/tasks/create/" method="post">
+            {{ error }}
+            <br>
+            {% csrf_token %}
+            {{ form.as_table }}
+            <br>
+            <button type="submit" class="btn btn-primary">Crear</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

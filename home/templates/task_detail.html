@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Detalle Tarea{% endblock %}
+
+{% block titulo %}Detalle de tarea{% endblock %}
+
+{% block content %}
+<div class="div-tasks">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination pagination-sm justify-content-center mt-3">
+          <li class="page-item"><a class="page-link" href="{% url 'home:home' %}">Inicio</a></li>
+          <li class="page-item"><a class="page-link" href="{% url 'home:tasks' %}">Tareas</a></li>
+        </ul>
+    </nav>
+    <div class="tareas mt-4">
+        <main class="container">
+            <div class="row">
+                <div class="offset-md-4">
+                    
+                    <h1 class="text-secondary mb-4">{{task.title}}</h1>
+                    
+                    {{error}}
+         
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{form.as_p}}
+                            <button class="btn btn-primary">
+                                Actualizar
+                            </button>
+                        </form>
+        
+                        <div class="btns-task d-flex mb-4">
+                       
+                        <form action="{% url 'home:complete_task' task.id %}" method="POST">
+                            {% csrf_token %}
+                            <button class="btn btn-secondary">
+                                Completar
+                            </button>
+                        </form>
+                        
+                        <form action="{% url 'home:delete_task' task.id %}" method="POST">
+                            {% csrf_token %}
+                            <button class="btn btn-danger">
+                                Borrar
+                            </button>
+                        </form>
+        
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}
