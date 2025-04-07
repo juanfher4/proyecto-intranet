@@ -231,7 +231,7 @@ section {
 
 .perfil img {
     border-radius: 50%;
-    border: 3px solid #b59566;
+    border: 3px solid #5B4A32;
     margin-bottom: 15px;
 }
 
@@ -306,6 +306,45 @@ section {
 
 input:focus-visible {
     outline: none !important;
+}
+
+/* Perfiles */
+
+.container-profiles {
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: 15px !important;
+    border-radius: 12px;
+}
+
+.container-profiles .all {
+    background-color: #5b4a32;
+    border: 1px solid #5B4A32;
+    color: #fff;
+    transition: .2s;
+}
+
+.container-profiles .all:hover {
+    background-color: #fff;
+    color: #5B4A32;
+}
+
+.container-profiles .r {
+    color: #5B4A32;
+    border-bottom: 1px solid #5B4A32;
+    border-right: 1px solid #5B4A32;
+    border-left: 1px solid #5B4A32;
+    transition: .2s;
+}
+
+.container-profiles .r:hover {
+    background-color: #5B4A32d9;
+    color: #fff;
+}
+
+.container-profiles .card {
+    border-radius: 0px;
+    max-width: 540px;
 }
 
 /* Tareas */

@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Perfiles{% endblock %}
+
+{% block titulo %}Perfiles{% endblock %}
+
+{% block content %}
+<div class="container-profiles">
+    <div class="row">
+        <div class="col-md-3 pt-3 p-3">
+            <h3 class="mb-4">Roles</h3>
+            <ul class="list-group pt-1">
+                <a class="all list-group-item {% if not rol %}active{% endif %}" href="{% url 'usuarios:profile_list' %}">Todos</a>
+                {% for r in roles %}
+                    <a class="r {% if rol.slug == r.slug %}active{% endif %}" href="{{ r.get_absolute_url }}">{{ r.nombre }}</a>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-9 p-3">
+            <h3 class="mb-4">{% if rol %}{{ rol.nombre }}{% else %}Perfiles{% endif %}</h3>
+            <div class="row">
+                <!-- {% for profile in profiles %}
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="{% if profile.imagen %}{{ profile.imagen.url }}{% else %}{% static 'img/profile.jpg' %}{% endif %}" class="card-img-top" alt="{{ profile.user.get_full_name }}">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ profile.nombre }}</h5>
+                                <p class="card-text p-1"><strong>Roles: </strong>
+                                    {% for role in profile.roles.all %}
+                                        {{ role.nombre }}{% if not forloop.last %}, {% endif %}
+                                    {% endfor %}
+                                </p>
+                                <p class="card-text p-1"><strong>Teléfono: </strong>{{ profile.telefono }}</p>
+                                <p class="card-text p-1"><strong>Email: </strong>{{ profile.user.email }}</p>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                {% endfor %} -->
+                <!-- {% for profile in profiles %}
+                    <div class="col-lg-6 col-md-12 mb-3">
+                        <div class="card mb-3" style="max-width: 540px;">
+                            <div class="row g-0">
+                                <div class="col-md-4">
+                                    <img src="{% if profile.imagen %}{{ profile.imagen.url }}{% else %}{% static 'img/profile.jpg' %}{% endif %}" class="img-fluid rounded-start" alt="{{ profile.user.get_full_name }}">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ profile.user.get_full_name }}</h5>
+                                        <p class="card-text"><strong>Roles: </strong>
+                                            {% for role in profile.roles.all %}
+                                                {{ role.nombre }}{% if not forloop.last %}, {% endif %}
+                                            {% endfor %}
+                                        </p>
+                                        <p class="card-text"><strong>Teléfono: </strong>{{ profile.telefono }}</p>
+                                        <p class="card-text"><strong>Email: </strong>{{ profile.user.email }}</p>
+                                        <p class="card-text"><small class="text-muted">Última actualización: hace 3 minutos</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %} -->
+                {% for profile in profiles %}
+                    <div class="col-lg-3 col-sm-4 col-6 p-1">
+                        <div class="card">
+                            <img src="{% if profile.imagen %}{{ profile.imagen.url }}{% else %}{% static 'img/profile.jpg' %}{% endif %}" class="card-img-top" alt="{{ profile.user.get_full_name }}">
+                            <div class="card">
+                                <h5 class="card-title">{{ profile.nombre }}</h5>
+                                <p class="card-text p-1"><strong>Roles: </strong>
+                                    {% for role in profile.roles.all %}
+                                        {{ role.nombre }}{% if not forloop.last %}, {% endif %}
+                                    {% endfor %}
+                                </p>
+                                <p class="card-text p-1"><strong>Teléfono: </strong>{{ profile.telefono }}</p>
+                                <p class="card-text p-1"><strong>Email: </strong>{{ profile.user.email }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

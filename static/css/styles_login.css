@@ -12,8 +12,7 @@ body {
     padding: 3rem;
     border-radius: 11px;
     box-shadow: 2px 2px 15px 5px rgba(255, 255, 255, 0.4);
-    width: 100%;
-    max-width: 400px;
+    width: 400px;
     margin: auto;
 }
 
@@ -55,4 +54,37 @@ body {
     background-color: #ffffff !important;
     color: #5B4A32;
     border-color: #5B4A32;
+}
+
+/* Medias screen */
+
+@media screen and (max-width: 600px) {
+    
+    .login-container {
+        width: 300px;
+        padding: 2rem;
+    }
+
+}
+
+@media screen and (max-width: 400px) {
+    
+    .login-container {
+        width: 250px;
+        padding: 1.5rem;
+    }
+
+    .login-header h1 {
+        font-size: 1.7rem;
+    }
+    
+    .login-header p {
+        font-size: 0.9rem;
+        color: #5B4A32;
+    }
+
+    .form-label {
+        font-size: 0.9rem;
+    }
+
 }
