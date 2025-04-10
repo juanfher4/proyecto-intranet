@@ -75,8 +75,6 @@ def profile_list(request, rol_slug=None):
     rol = None
     roles = Rol.objects.all()
     profiles = Profile.objects.filter(user__is_active=True)
-    for profile in profiles:
-        print(profile.imagen)
 
     if rol_slug:
         rol = get_object_or_404(Rol,
