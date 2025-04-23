@@ -347,7 +347,6 @@ input:focus-visible {
     max-width: 540px;
 }
 
-
 /* Tareas */
 
 .header-tasks p {
@@ -369,6 +368,15 @@ input:focus-visible {
 .btns-task {
     justify-content: center;
     gap: 7px;
+}
+
+/* clientes */
+
+.container-clientes {
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: 15px !important;
+    border-radius: 12px;
 }
 
 /* Medias screen */
