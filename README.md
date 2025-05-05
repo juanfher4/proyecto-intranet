@@ -1,4 +1,4 @@
-# Proyecto Intranet ![Logo](/static/img/logo.jpg)
+# Proyecto Intranet ![Logo](/static/img/logo_negro_y_blanco.png)
 
 Este proyecto lo estoy haciendo para mi trabajo final de grado superior *(Desarrollo de aplicaciones web)* y para la empresa en la que estoy de prácticas. Es un **CRM** *(Customer Relationship Management o Gestión de Relaciones con el Cliente)*.
 
