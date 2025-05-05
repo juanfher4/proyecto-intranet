@@ -20,16 +20,16 @@
                     <h1 class="text-secondary mb-4">{{task.title}}</h1>
                     
                     {{error}}
-         
-                        <form method="POST">
-                            {% csrf_token %}
-                            {{form.as_p}}
-                            <button class="btn btn-primary">
-                                Actualizar
-                            </button>
-                        </form>
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{form.as_p}}
+                        <button class="btn btn-primary">
+                            Actualizar
+                        </button>
+                    </form>
         
-                        <div class="btns-task d-flex mb-4">
+                    <div class="btns-task d-flex mb-4">
                        
                         <form action="{% url 'home:complete_task' task.id %}" method="POST">
                             {% csrf_token %}
@@ -46,6 +46,7 @@
                         </form>
         
                     </div>
+                    
                 </div>
             </div>
         </main>

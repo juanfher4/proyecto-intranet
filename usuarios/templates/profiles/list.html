@@ -8,7 +8,9 @@
 {% block content %}
 <div class="container-profiles">
     <div class="row">
+        <!-- Filtro -->
         <div class="col-md-3 pt-3 p-3">
+
             <h3 class="mb-4">Roles</h3>
             <ul class="list-group pt-1">
                 <a class="all list-group-item {% if not rol %}active{% endif %}" href="{% url 'usuarios:profile_list' %}">Todos</a>
@@ -16,6 +18,7 @@
                     <a class="r {% if rol.slug == r.slug %}active{% endif %}" href="{{ r.get_absolute_url }}">{{ r.nombre }}</a>
                 {% endfor %}
             </ul>
+            
         </div>
         <div class="col-md-9 p-3">
             <h3 class="mb-4">{% if rol %}{{ rol.nombre }}{% else %}Perfiles{% endif %}</h3>

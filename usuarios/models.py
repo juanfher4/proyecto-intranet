@@ -37,4 +37,8 @@ class Profile(models.Model):
                                blank=True)
 
     def __str__(self):
-        return f'Perfil de {self.user.username}'
+        return f'{self.user.first_name} {self.user.last_name}'
+
+    def get_absolute_url(self):
+        return reverse('productos:clientes_comercial',
+                       args=[self.id])

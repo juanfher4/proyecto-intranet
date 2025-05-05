@@ -52,7 +52,7 @@ def task_detail(request, task_id):
             form.save()
             return redirect('home:tasks')
         except ValueError:
-            return render(request, 'task_detail.html', {'task': task, 'form': form, 'error': 'Error updating task'})
+            return render(request, 'task_detail.html', {'task': task, 'form': form, 'error': 'Error al actualizar la tarea'})
 
 @login_required
 def complete_task(request, task_id):

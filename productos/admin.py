@@ -3,12 +3,12 @@ from .models import Cliente, EstadoCliente, Producto, Espesor, Ubicacion, Estado
 
 @admin.register(EstadoCliente)
 class EstadoClienteAdmin(admin.ModelAdmin):
-    list_display = ['nombre', 'slug', 'fecha_estado']
+    list_display = ['nombre', 'slug']
     prepopulated_fields = {'slug': ('nombre',)}
 
 @admin.register(Cliente)
 class ClienteAdmin(admin.ModelAdmin):
-    list_display = ['nombre', 'telefono', 'fecha_contacto', 'via_entrada', 'comercial']
+    list_display = ['nombre', 'telefono', 'fecha_contacto', 'via_entrada', 'comercial', 'estado']
 
 @admin.register(Espesor)
 class EspesorAdmin(admin.ModelAdmin):
@@ -46,7 +46,7 @@ class ProductoAdmin(admin.ModelAdmin):
 
 @admin.register(EstadoProducto)
 class EstadoProductoAdmin(admin.ModelAdmin):
-    list_display = ['nombre', 'producto_especifico', 'fecha_estado']
+    list_display = ['nombre', 'slug']
     prepopulated_fields = {'slug': ('nombre',)}
 
 class UbicacionInline(admin.StackedInline):

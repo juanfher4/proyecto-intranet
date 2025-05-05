@@ -69,6 +69,13 @@ class Producto(models.Model):
     def __str__(self):
         return f"{self.nombre} - $ {self.precio}"
 
+class EstadoCliente(models.Model):
+    nombre = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200)
+
+    def __str__(self):
+        return self.nombre
+
 class Cliente(models.Model):
     id_cliente = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=200)
@@ -84,29 +91,18 @@ class Cliente(models.Model):
         limit_choices_to={'roles__slug': 'comercial'},
         help_text='El rol debe ser "comercial"'
     )
+    estado = models.ForeignKey(
+        EstadoCliente,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True
+    )
+
+    class Meta:
+        db_table='cliente'
 
     def __str__(self):
         return f"Cliente: {self.nombre}. Comercial: {self.comercial.user.username}"
-
-class EstadoCliente(models.Model):
-    nombre = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200)
-
-    producto = models.ForeignKey(
-        Producto,
-        on_delete=models.CASCADE,
-        related_name="estados"
-    )
-    cliente = models.ForeignKey(
-        Cliente,
-        on_delete=models.CASCADE,
-        related_name="estados"
-    )
-
-    fecha_estado = models.DateTimeField(blank=True, null=True)
-
-    def __str__(self):
-        return f"El cliente {self.cliente.nombre} está interesado en: {self.producto.nombre}."
 
 class Montador(models.Model):
     id_montador = models.AutoField(primary_key=True)
@@ -115,6 +111,14 @@ class Montador(models.Model):
     correo = models.EmailField(max_length=254, blank=True, null=True)
     zona_servicio = models.CharField(max_length=255)
     nota = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.nombre
+
+class EstadoProducto(models.Model):
+    id_estado_producto = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=200)
+    slug = models.CharField(max_length=200)
 
     def __str__(self):
         return self.nombre
@@ -149,6 +153,12 @@ class ProductoEspecifico(models.Model):
         related_name="productos_especificos",
         blank=True
     )
+    estado = models.ForeignKey(
+        EstadoProducto,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True
+    )
 
     def __str__(self):
         return f"{self.producto.nombre} de {self.cliente.nombre} montado por {self.montador.nombre}"
@@ -167,21 +177,6 @@ class Ubicacion(models.Model):
 
     def __str__(self):
         return f"Ubicación ({self.latitud}, {self.longitud})"
-
-class EstadoProducto(models.Model):
-    id_estado_producto = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=200)
-    slug = models.CharField(max_length=200)
-    producto_especifico = models.ForeignKey(
-        ProductoEspecifico,
-        on_delete=models.CASCADE,
-        related_name="estados"
-    )
-    fecha_estado = models.DateTimeField(blank=True, null=True)
-    nota = models.TextField(blank=True, null=True)
-
-    def __str__(self):
-        return f"Estado: {self.nombre} - Producto: {self.producto_especifico.producto.nombre} - Cliente: {self.producto_especifico.cliente.nombre}"
 
 class EnvioProducto(models.Model):
     id_envio = models.AutoField(primary_key=True)

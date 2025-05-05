@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Clientes{% endblock %}
+
+{% block titulo %}Clientes{% endblock %}
+
+{% block content %}
+<div class="container-clientes">
+    <div class="row">
+        <div class="col-lg-3 col-12">
+            
+            <a href="{% url 'productos:crear_cliente' %}" class="btn btn-primary mt-3">Añadir cliente</a>
+
+            <h3 class="my-4">Comercial</h3>
+            <ul class="list-group">
+                <a href="" class="list-group-item"></a>
+            </ul>
+        </div>
+        <div class="col-lg-9">
+            <!-- Navegación vista -->
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'productos:clientes' %}">Cartas</a>
+                </li>
+                <li class="nav-item">
+                  <span class="nav-link active">Lista</span>
+                </li>
+            </ul>
+            <!-- Vista Lista -->
+            <div class="row vista-lista my-3">
+                <div class="col-sm-12-col-md-12 col-lg-12 col-xl-12">
+                    <div class="table-responsive">
+                        <table id="datatable-clientes" class="table">
+                            <caption>
+                                Lista clientes
+                            </caption>
+                            <thead>
+                                <tr>
+                                    <th class="centered">#</th>
+                                    <th class="centered">Nombre</th>
+                                    <th class="centered">Comercial</th>
+                                    <th class="centered">Teléfono</th>
+                                    <th class="centered">Correo</th>
+                                    <th class="centered">Ciudad</th>
+                                    <th class="centered">Fecha de contacto</th>
+                                    <th class="centered">Vía de entrada</th>
+                                    <th class="centered">Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody_clientes"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
