@@ -357,8 +357,23 @@ input:focus-visible {
 }
 
 .container-profiles .card {
-    border-radius: 0px;
+    border-radius: 12px;
     max-width: 540px;
+    padding: 14px;
+}
+
+.container-profiles .card img {
+    border-radius: 10px;
+}
+
+.container-profiles .card i {
+    color: #737373;
+    transition: .2s;
+}
+
+.container-profiles .card:hover i {
+    color: #080044;
+    text-shadow: 0px 2px 4px rgb(185, 189, 255);
 }
 
 /* Tareas */

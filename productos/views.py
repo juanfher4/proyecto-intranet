@@ -3,12 +3,55 @@ from django.contrib.auth.decorators import login_required
 from django.http.response import JsonResponse
 
 from usuarios.models import Profile, Rol
-from .models import Cliente, EstadoCliente
-from .forms import ClienteForm
+from .models import Cliente, EstadoCliente, Producto
+from .forms import ClienteForm, ProductoForm
 
 @login_required
 def productos(request):
-    return render(request, 'products/productos.html')
+    productos = Producto.objects.all()
+
+    return render(request, 'products/productos.html', {'productos': productos})
+
+@login_required
+def crear_producto(request):
+    
+    if request.method == 'GET':
+        return render(request, "products/crear_producto.html", {
+            'form': ProductoForm
+        })
+    else:
+        try:
+            form = ProductoForm(request.POST)
+            nuevo_producto = form.save(commit=False)
+            nuevo_producto.save()
+            return redirect('productos:productos')
+        except ValueError:
+            return render(request, "products/crear_producto.html", {
+                'form': ProductoForm,
+                'error': 'Por favor, proporciona datos correctos'
+            })
+
+@login_required
+def edit_producto(request, producto_id):
+    if request.method == 'GET':
+        producto = get_object_or_404(Producto, pk=producto_id)
+        form = ProductoForm(instance=producto)
+        return render(request, 'products/edit_producto.html', {'producto': producto, 'form': form})
+    else:
+        try:
+            producto = get_object_or_404(Cliente, pk=producto_id)
+            form = ProductoForm(request.POST, instance=producto)
+            form.save()
+            return render('productos')
+        except  ValueError:
+            return render(request, 'products/edit_producto.html', {'producto': producto, 'form': form, 'error': 'Error al actualizar el producto'})
+
+@login_required
+def borrar_producto(request, producto_id):
+    producto = get_object_or_404(Producto, pk=producto_id)
+    if request.method == 'POST':
+        producto.delete()
+        return redirect('productos')
 
 @login_required
 def clientes(request, estado_slug=None, comercial_id=None):

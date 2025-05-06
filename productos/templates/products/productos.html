@@ -5,7 +5,27 @@
 {% block titulo %}Productos{% endblock %}
 
 {% block content %}
-<div class="div-productos">
-    
+<div class="container-productos">
+    <div class="row">
+        <!-- Filtros -->
+        <div class="col-lg-3 col-12">
+
+            <a href="{% url 'productos:crear_producto' %}" class="btn btn-primary mt-3">Añadir producto</a>
+
+        </div>
+        <div class="col-lg-9">
+            <!-- Navegación vista -->
+            <!-- Vista cartas -->
+            <div class="row text-center vista-cartas">
+                {% for producto in productos %}
+                    <div class="col-lg-3 col-md-4 col-6 p-1">
+                        <a href="{% url 'productos:edit_producto' producto.id_producto %}">
+                            
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
