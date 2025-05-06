@@ -1,7 +1,6 @@
 * {
     text-decoration: none !important;
     margin: 0 !important;
-    padding: 0 !important;
 }
 
 body {
@@ -31,7 +30,14 @@ body {
     background-color: #f3f3f3;
     display: flex;
     padding: 0 !important;
-    
+}
+
+.btn {
+    transition: .2s;
+}
+
+.btn:hover {
+    transform: scale(1.05);
 }
 
 /* Barra izquierda */
@@ -123,6 +129,11 @@ body {
 
 .navbar {
     display: none !important;
+    padding: 0 !important;
+}
+
+.navbar * {
+    padding: 0 !important;
 }
 
 .nav__icon--logo {
@@ -188,12 +199,14 @@ body {
 
 /* Section */
 
-section {
+.section {
     width: 100%;
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    overflow-y: auto;
+    max-height: 85vh;
 }
 
 .page-link {
@@ -231,30 +244,30 @@ section {
 
 .perfil img {
     border-radius: 50%;
-    border: 3px solid #b59566;
-    margin-bottom: 15px;
+    border: 3px solid #5B4A32;
+    margin-bottom: 15px !important;
 }
 
 .perfil h2 {
     color: #333;
     font-size: 1.75rem;
-    margin-bottom: 10px;
+    margin-bottom: 10px !important;
 }
 
 .perfil h3 {
     color: #555;
     font-size: 1.5rem;
-    margin-bottom: 15px;
+    margin-bottom: 15px !important;
 }
 
 .perfil ul {
     list-style: none;
-    padding: 0;
+    padding: 0 !important;
 }
 
 .perfil ul li {
     font-size: 1.1rem;
-    padding: 8px 0;
+    padding: 8px 0 !important;
     border-bottom: 1px solid #eee;
 }
 
@@ -308,6 +321,61 @@ input:focus-visible {
     outline: none !important;
 }
 
+/* Perfiles */
+
+.container-profiles {
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: 15px !important;
+    border-radius: 12px;
+    min-width: -webkit-fill-available;
+}
+
+.container-profiles .all {
+    background-color: #5b4a32;
+    border: 1px solid #5B4A32;
+    color: #fff;
+    transition: .2s;
+}
+
+.container-profiles .all:hover {
+    background-color: #fff;
+    color: #5B4A32;
+}
+
+.r {
+    color: #5B4A32;
+    border-bottom: 1px solid #5B4A32;
+    border-right: 1px solid #5B4A32;
+    border-left: 1px solid #5B4A32;
+    transition: .2s;
+}
+
+.r:hover {
+    background-color: #5B4A32d9;
+    color: #fff;
+}
+
+.container-profiles .card {
+    border-radius: 12px;
+    max-width: 540px;
+    padding: 14px;
+}
+
+.container-profiles .card img {
+    border-radius: 10px;
+}
+
+.container-profiles .card i {
+    color: #737373;
+    transition: .2s;
+}
+
+.container-profiles .card:hover i {
+    color: #080044;
+    text-shadow: 0px 2px 4px rgb(185, 189, 255);
+}
+
 /* Tareas */
 
 .header-tasks p {
@@ -329,6 +397,84 @@ input:focus-visible {
 .btns-task {
     justify-content: center;
     gap: 7px;
+}
+
+/* clientes */
+
+.container-clientes {
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: 15px !important;
+    border-radius: 12px;
+    min-width: -webkit-fill-available;
+}
+
+.container-clientes .card {
+    margin-top: 15px !important;
+    margin-bottom: 15px !important;
+    font-size: 14px;
+    transition: .2s;
+}
+
+.container-clientes .card:hover {
+    transform: scale(1.03);
+}
+
+.container-clientes .interesado {
+    box-shadow: 5px 5px 20px -7px #0d6efd;
+}
+
+.container-clientes .interesado:hover {
+    box-shadow: 5px 5px 25px -3px #0d6efd;
+}
+
+.container-clientes .comprando {
+    box-shadow: 5px 5px 20px -7px #198754;
+}
+
+.container-clientes .comprando:hover {
+    box-shadow: 5px 5px 25px -3px #198754;
+}
+
+.container-clientes .visita {
+    box-shadow: 5px 5px 20px -7px #dc3545;
+}
+
+.container-clientes .visita:hover {
+    box-shadow: 5px 5px 25px -3px #dc3545;
+}
+
+.container-clientes .postventa {
+    box-shadow: 5px 5px 20px -7px #ffc107;
+}
+
+.container-clientes .postventa:hover {
+    box-shadow: 5px 5px 25px -3px #ffc107;
+}
+
+/* clientes_lista */
+
+.centered {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+.table-responsive .row .form-select {
+    margin: 5px !important;
+}
+
+.table-responsive .row .form-control {
+    margin: 5px !important;
+}
+
+/* Nav clientes */
+
+.nav-tabs .nav-link {
+    color: black;
+}
+
+.nav-tabs .nav-link:hover {
+    color: #5B4A32 !important;
 }
 
 /* Medias screen */

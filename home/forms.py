@@ -13,5 +13,5 @@ class TaskForm(forms.ModelForm):
         labels = {
             'title': 'Título',
             'description': 'Descripción',
-            'important': '¿Importante?',
+            'important': '¿Es importante?',
         }
