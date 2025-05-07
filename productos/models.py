@@ -65,6 +65,8 @@ class Producto(models.Model):
                                        blank=True)
     tipo_productos = models.ManyToManyField(TipoProducto,
                                             related_name='tipos')
+    imagen = models.ImageField(upload_to='products/%Y/%m/%d',
+                               blank=True)
 
     def __str__(self):
         return f"{self.nombre} - $ {self.precio}"

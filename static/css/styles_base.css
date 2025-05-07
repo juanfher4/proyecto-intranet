@@ -331,15 +331,15 @@ input:focus-visible {
     min-width: -webkit-fill-available;
 }
 
-.container-profiles .all {
-    background-color: #5b4a32;
-    border: 1px solid #5B4A32;
+.all {
+    background-color: #5b4a32 !important;
+    border: 1px solid #5B4A32 !important;
     color: #fff;
     transition: .2s;
 }
 
-.container-profiles .all:hover {
-    background-color: #fff;
+.all:hover {
+    background-color: #fff !important;
     color: #5B4A32;
 }
 
