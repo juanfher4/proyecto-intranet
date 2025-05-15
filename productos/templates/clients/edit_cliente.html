@@ -5,26 +5,45 @@
 {% block titulo %}Editar cliente{% endblock %}
 
 {% block content %}
-<div class="div-clientes">
-    <div class="clientes">
+<div class="div-formulario">
 
-        {{ error }}
+    {{ error }}
 
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_table }}
-            <button class="btn btn-primary">
-                Actualizar
-            </button>
-        </form>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_table }}
+        <button class="btn btn-primary">
+            Actualizar
+        </button>
+    </form>
 
-        <form action="{% url 'productos:borrar_cliente' cliente.id_cliente %}" method="POST" id="form_borrar_cliente">
-            {% csrf_token %}
-            <button class="btn btn-danger" id="borrar_cliente">
-                Borrar cliente
-            </button>
-        </form>
+    <!-- Botón modal para borrar -->
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Borrar cliente
+    </button>
 
+    <!-- Modal -->
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Borrar cliente</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Estás seguro/a?
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cerrar</button>
+                    <form action="{% url 'productos:borrar_cliente' cliente.id_cliente %}" method="POST">
+                        {% csrf_token %}
+                        <button class="btn btn-danger" type="submit">Borrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
+
 </div>
 {% endblock %}

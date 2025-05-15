@@ -1,4 +1,4 @@
-* {
+*:not(.modal-dialog) {
     text-decoration: none !important;
     margin: 0 !important;
 }
@@ -7,6 +7,11 @@ body {
     display: grid;
     min-height: 100dvh;
     grid-template-rows: auto 1fr;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
 }
 
 .header-nav {
@@ -119,6 +124,7 @@ body {
 .sidebar__element--avatar {
     text-wrap: nowrap;
     text-align: left;
+    margin-bottom: 15px !important;
 }
 
 .sidebar__title, .sidebar__info {
@@ -323,7 +329,7 @@ input:focus-visible {
 
 /* Perfiles */
 
-.container-profiles {
+.container-pred {
     background-color: #fff;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     margin: 15px !important;
@@ -331,14 +337,14 @@ input:focus-visible {
     min-width: -webkit-fill-available;
 }
 
-.container-profiles .all {
+.profiles .all {
     background-color: #5b4a32;
     border: 1px solid #5B4A32;
     color: #fff;
     transition: .2s;
 }
 
-.container-profiles .all:hover {
+.profiles .all:hover {
     background-color: #fff;
     color: #5B4A32;
 }
@@ -356,22 +362,22 @@ input:focus-visible {
     color: #fff;
 }
 
-.container-profiles .card {
+.profiles .card {
     border-radius: 12px;
     max-width: 540px;
     padding: 14px;
 }
 
-.container-profiles .card img {
+.profiles .card img {
     border-radius: 10px;
 }
 
-.container-profiles .card i {
+.profiles .card i {
     color: #737373;
     transition: .2s;
 }
 
-.container-profiles .card:hover i {
+.profiles .card:hover i {
     color: #080044;
     text-shadow: 0px 2px 4px rgb(185, 189, 255);
 }
@@ -401,54 +407,46 @@ input:focus-visible {
 
 /* clientes */
 
-.container-clientes {
-    background-color: #fff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    margin: 15px !important;
-    border-radius: 12px;
-    min-width: -webkit-fill-available;
-}
-
-.container-clientes .card {
+.clientes .card {
     margin-top: 15px !important;
     margin-bottom: 15px !important;
     font-size: 14px;
     transition: .2s;
 }
 
-.container-clientes .card:hover {
+.clientes .card:hover {
     transform: scale(1.03);
 }
 
-.container-clientes .interesado {
+.clientes .interesado {
     box-shadow: 5px 5px 20px -7px #0d6efd;
 }
 
-.container-clientes .interesado:hover {
+.clientes .interesado:hover {
     box-shadow: 5px 5px 25px -3px #0d6efd;
 }
 
-.container-clientes .comprando {
+.clientes .comprando {
     box-shadow: 5px 5px 20px -7px #198754;
 }
 
-.container-clientes .comprando:hover {
+.clientes .comprando:hover {
     box-shadow: 5px 5px 25px -3px #198754;
 }
 
-.container-clientes .visita {
+.clientes .visita {
     box-shadow: 5px 5px 20px -7px #dc3545;
 }
 
-.container-clientes .visita:hover {
+.clientes .visita:hover {
     box-shadow: 5px 5px 25px -3px #dc3545;
 }
 
-.container-clientes .postventa {
+.clientes .postventa {
     box-shadow: 5px 5px 20px -7px #ffc107;
 }
 
-.container-clientes .postventa:hover {
+.clientes .postventa:hover {
     box-shadow: 5px 5px 25px -3px #ffc107;
 }
 
@@ -477,6 +475,54 @@ input:focus-visible {
     color: #5B4A32 !important;
 }
 
+/* edit_cliente */
+
+/* productos */
+
+.productos .card {
+    transition: .2s;
+    box-shadow: 5px 5px 20px -7px #5B4A32;
+}
+
+.productos .card:hover {
+    transform: scale(1.03);
+}
+
+.productos .icono:hover {
+    opacity: 0.5;
+    transition: .2s;
+}
+
+.productos img {
+    box-shadow: 5px 5px 20px -7px #5B4A32;
+}
+
+.productos .card:hover .card-title {
+    text-shadow: 0px 2px 4px #5b4a328b;
+}
+
+/* Añadir producto */
+
+.div-formulario {
+    min-width: 500px;
+    background-color: white;
+    margin: 20px !important;
+    padding: 20px !important;
+    border-radius: 15px;
+}
+
+.div-formulario form {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.div-formulario form label {
+    margin: 1px !important;
+}
+
 /* Medias screen */
 
 @media screen and (max-width: 960px) {
@@ -499,6 +545,14 @@ input:focus-visible {
 
     .navbar {
         display: block !important;
+    }
+
+}
+
+@media screen and (max-width: 600px) {
+    
+    .div-formulario {
+        min-width: auto;
     }
 
 }

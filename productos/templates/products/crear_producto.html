@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Añadir Producto{% endblock %}
+
+{% block titulo %}Añadir producto{% endblock %}
+
+{% block content %}
+<div class="div-formulario">
+    <form action="{% url 'productos:crear_producto' %}" method="post">
+        {{ error }}
+        <br>
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-lg-6">
+                {{ form.nombre.label_tag }}
+                <span>{{ form.nombre }}</span>
+                {{ form.precio.label_tag }}
+                {{ form.precio }}
+                {{ form.num_habitaciones.label_tag }}
+                {{ form.num_habitaciones }}
+                {{ form.num_banios.label_tag }}
+                {{ form.num_banios }}
+                {{ form.num_cocina.label_tag }}
+                {{ form.num_cocina }}
+                {{ form.num_plantas.label_tag }}
+                {{ form.num_plantas }}
+                {{ form.pared_m2.label_tag }}
+                {{ form.pared_m2 }}
+                {{ form.suelo_m2.label_tag }}
+                {{ form.suelo_m2 }}
+                {{ form.tejado_m2.label_tag }}
+                {{ form.tejado_m2 }}
+            </div>
+            <div class="col-lg-6">
+                {{ form.espesores.label_tag }}
+                {{ form.espesores }}
+                {{ form.tipo_productos.label_tag }}
+                {{ form.tipo_productos }}
+                {{ form.imagen.label_tag }}
+                {{ form.imagen }}
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary">Crear</button>
+                <a href="{% url 'productos:productos' %}" type="submit" class="btn btn-secondary">Volver</a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

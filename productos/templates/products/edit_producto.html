@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Editar producto{% endblock %}
+
+{% block titulo %}Editar producto{% endblock %}
+
+{% block content %}
+<div class="div-formulario">
+
+    {{ error }}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-lg-6">
+                {{ form.nombre.label_tag }}
+                <span>{{ form.nombre }}</span>
+                {{ form.precio.label_tag }}
+                {{ form.precio }}
+                {{ form.num_habitaciones.label_tag }}
+                {{ form.num_habitaciones }}
+                {{ form.num_banios.label_tag }}
+                {{ form.num_banios }}
+                {{ form.num_cocina.label_tag }}
+                {{ form.num_cocina }}
+                {{ form.num_plantas.label_tag }}
+                {{ form.num_plantas }}
+                {{ form.pared_m2.label_tag }}
+                {{ form.pared_m2 }}
+                {{ form.suelo_m2.label_tag }}
+                {{ form.suelo_m2 }}
+                {{ form.tejado_m2.label_tag }}
+                {{ form.tejado_m2 }}
+            </div>
+            <div class="col-lg-6">
+                {{ form.espesores.label_tag }}
+                {{ form.espesores }}
+                {{ form.tipo_productos.label_tag }}
+                {{ form.tipo_productos }}
+                {{ form.imagen.label_tag }}
+                {{ form.imagen }}
+            </div>
+            <div>
+                <button class="btn btn-primary">
+                    Actualizar
+                </button>
+                <a href="{% url 'productos:productos' %}" type="submit" class="btn btn-secondary">Volver</a>
+                <!-- Botón modal para borrar -->
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Borrar producto
+                </button>
+            </div>
+        </div>
+    </form>
+
+
+    <!-- Modal -->
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Borrar producto</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Estás seguro/a?
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cerrar</button>
+                    <form action="{% url 'productos:borrar_producto' producto.id_producto %}" method="POST">
+                        {% csrf_token %}
+                        <button class="btn btn-danger" type="submit">Borrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

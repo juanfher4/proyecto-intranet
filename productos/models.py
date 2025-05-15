@@ -31,8 +31,12 @@ class Espesor(models.Model):
     revestimiento = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.nombre} - Revestimiento: {self.revestimiento}"
+        return f"{self.nombre} - Rev: {self.revestimiento}"
     
+    def get_absolute_url(self):
+        return reverse('usuarios:profile_list_rol',
+                       args=[self.id_espesor])
+
 class TipoProducto(models.Model):
     nombre = models.CharField(max_length=200)
     slug = models.CharField(max_length=200)
@@ -57,14 +61,17 @@ class Producto(models.Model):
     num_habitaciones = models.IntegerField(blank=True, null=True)
     num_banios = models.IntegerField(blank=True, null=True)
     num_plantas = models.IntegerField(blank=True, null=True)
+    num_cocina = models.IntegerField(blank=True, null=True)
     pared_m2 = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
     suelo_m2 = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
     tejado_m2 = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
     espesores = models.ManyToManyField(Espesor,
-                                       related_name='espesores',
+                                       related_name='productos',
                                        blank=True)
     tipo_productos = models.ManyToManyField(TipoProducto,
-                                            related_name='tipos')
+                                            related_name='productos')
+    imagen = models.ImageField(upload_to='products/%Y/%m/%d',
+                               blank=True)
 
     def __str__(self):
         return f"{self.nombre} - $ {self.precio}"

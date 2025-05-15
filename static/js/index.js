@@ -1,11 +1,3 @@
-/* Confirmación borrar cliente */
-let form_borrar_cliente = document.getElementById("form_borrar_cliente");
-
-form_borrar_cliente.addEventListener("submit", function (event) {
-  event.preventDefault();
-
-  let borrar_cliente = document.getElementById("borrar_cliente");
-});
 
 /* datatable-clientes */
 let dataTable;
