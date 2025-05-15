@@ -23,7 +23,6 @@ class ProfileEditForm(forms.ModelForm):
         fields = ['telefono', 'roles', 'fecha_nacimiento', 'imagen']
         widgets = {
             'telefono': forms.TextInput(attrs={'class': 'form-control p-2 m-1', 'placeholder': 'Escribe tu número de teléfono'}),
-            'roles': forms.CheckboxInput(attrs={'class': 'form-control p-2 m-1'}),
             'fecha_nacimiento': forms.DateTimeInput(attrs={'class': 'form-control p-2 m-1', 'type': 'date'}),
             'imagen': forms.FileInput(attrs={'class': 'form-control p-2 m-1'}),
         }

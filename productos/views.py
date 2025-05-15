@@ -3,14 +3,23 @@ from django.contrib.auth.decorators import login_required
 from django.http.response import JsonResponse
 
 from usuarios.models import Profile, Rol
-from .models import Cliente, EstadoCliente, Producto
+from .models import Cliente, EstadoCliente, Producto, Espesor
 from .forms import ClienteForm, ProductoForm
 
 @login_required
-def productos(request):
+def productos(request, espesor_id=None):
+    espesor = None
+    espesores = Espesor.objects.all()
     productos = Producto.objects.all()
 
-    return render(request, 'products/productos.html', {'productos': productos})
+    if espesor_id:
+        espesor = get_object_or_404(Espesor,
+                                    id_espesor=espesor_id)
+        productos = productos.filter(espesores=espesor)
+
+    return render(request, 'products/productos.html', {'productos': productos,
+                                                       'espesor': espesor,
+                                                       'espesores': espesores})
 
 @login_required
 def crear_producto(request):
@@ -34,24 +43,39 @@ def crear_producto(request):
 @login_required
 def edit_producto(request, producto_id):
     if request.method == 'GET':
-        producto = get_object_or_404(Producto, pk=producto_id)
+        producto = get_object_or_404(Producto, id_producto=producto_id)
         form = ProductoForm(instance=producto)
         return render(request, 'products/edit_producto.html', {'producto': producto, 'form': form})
     else:
         try:
-            producto = get_object_or_404(Cliente, pk=producto_id)
-            form = ProductoForm(request.POST, instance=producto)
+            producto = get_object_or_404(Producto, id_producto=producto_id)
+            form = ProductoForm(data=request.POST, instance=producto, files=request.FILES)
             form.save()
-            return render('productos')
-        except  ValueError:
+            return redirect('productos:productos')
+        except ValueError:
             return render(request, 'products/edit_producto.html', {'producto': producto, 'form': form, 'error': 'Error al actualizar el producto'})
+
+@login_required
+def edit_cliente(request, cliente_id):
+    if request.method == 'GET':
+        cliente = get_object_or_404(Cliente, id_cliente=cliente_id)
+        form = ClienteForm(instance=cliente)
+        return render(request, 'clients/edit_cliente.html', {'cliente': cliente, 'form': form})
+    else:
+        try:
+            cliente = get_object_or_404(Cliente, id_cliente=cliente_id)
+            form = ClienteForm(request.POST, instance=cliente)
+            form.save()
+            return redirect('productos:clientes')
+        except  ValueError:
+            return render(request, 'clients/edit_cliente.html', {'cliente': cliente, 'form': form, 'error': 'Error al actualizar el cliente'})
 
 @login_required
 def borrar_producto(request, producto_id):
     producto = get_object_or_404(Producto, pk=producto_id)
     if request.method == 'POST':
         producto.delete()
-        return redirect('productos')
+        return redirect('productos:productos')
 
 @login_required
 def clientes(request, estado_slug=None, comercial_id=None):
@@ -124,21 +148,6 @@ def crear_cliente(request):
                 'form': ClienteForm,
                 'error': 'Por favor, proporciona datos correctos'
             })
-
-@login_required
-def edit_cliente(request, cliente_id):
-    if request.method == 'GET':
-        cliente = get_object_or_404(Cliente, pk=cliente_id)
-        form = ClienteForm(instance=cliente)
-        return render(request, 'clients/edit_cliente.html', {'cliente': cliente, 'form': form})
-    else:
-        try:
-            cliente = get_object_or_404(Cliente, pk=cliente_id)
-            form = ClienteForm(request.POST, instance=cliente)
-            form.save()
-            return render('productos:clientes')
-        except  ValueError:
-            return render(request, 'clients/edit_cliente.html', {'cliente': cliente, 'form': form, 'error': 'Error al actualizar el cliente'})
 
 @login_required
 def borrar_cliente(request, cliente_id):
