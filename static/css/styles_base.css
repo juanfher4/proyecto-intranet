@@ -240,6 +240,7 @@ html, body {
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     max-width: 800px;
+    margin-top: 2rem !important;
 }
 
 .perfil .row {
@@ -337,14 +338,14 @@ input:focus-visible {
     min-width: -webkit-fill-available;
 }
 
-.container-profiles .all {
+.profiles .all {
     background-color: #5b4a32;
     border: 1px solid #5B4A32;
     color: #fff;
     transition: .2s;
 }
 
-.container-profiles .all:hover {
+.profiles .all:hover {
     background-color: #fff;
     color: #5B4A32;
 }
