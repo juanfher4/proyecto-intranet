@@ -453,17 +453,18 @@ input:focus-visible {
 
 /* clientes_lista */
 
-.centered {
-    text-align: center !important;
-    vertical-align: middle !important;
+.table-responsive {
+    overflow-x: auto;
+    white-space: nowrap;
 }
 
-.table-responsive .row .form-select {
-    margin: 5px !important;
+.table {
+    overflow-x: auto;
+    white-space: nowrap;
 }
 
-.table-responsive .row .form-control {
-    margin: 5px !important;
+.table th, .table tr {
+    font-size: 14px;
 }
 
 /* Nav clientes */
@@ -525,6 +526,15 @@ input:focus-visible {
 }
 
 /* Medias screen */
+
+@media screen and (max-width: 990px) {
+
+    .table th, .table td {
+        font-size: 12px;
+        padding: 5px;
+    }
+
+}
 
 @media screen and (max-width: 960px) {
     

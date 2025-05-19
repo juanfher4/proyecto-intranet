@@ -5,18 +5,22 @@
 {% block titulo %}Clientes{% endblock %}
 
 {% block content %}
-<div class="container-clientes">
+<div class="container-pred clientes">
     <div class="row">
-        <div class="col-lg-3 col-12">
+        <div class="col-lg-2 col-12">
             
             <a href="{% url 'productos:crear_cliente' %}" class="btn btn-primary mt-3">Añadir cliente</a>
 
             <h3 class="my-4">Comercial</h3>
-            <ul class="list-group">
-                <a href="" class="list-group-item"></a>
+            <ul class="list-group pt-1">
+                <a href="{% url 'productos:clientes' %}" class="all list-group-item {% if not comercial %}active{% endif %}">Todos</a>
+                {% for comerc in comerciales %}
+                    <a class="r {% if comercial == comerc.nombre %}active{% endif %}" href="{{ comerc.get_absolute_url }}">{{ comerc.user.first_name }} {{ comerc.user.last_name }}</a>
+                {% endfor %}
             </ul>
+
         </div>
-        <div class="col-lg-9">
+        <div class="col-lg-10">
             <!-- Navegación vista -->
             <ul class="nav nav-tabs">
                 <li class="nav-item">
@@ -28,26 +32,48 @@
             </ul>
             <!-- Vista Lista -->
             <div class="row vista-lista my-3">
-                <div class="col-sm-12-col-md-12 col-lg-12 col-xl-12">
+                <div class="">
                     <div class="table-responsive">
-                        <table id="datatable-clientes" class="table">
+                        <table class="table table-striped-columns table-hover table-bordered">
                             <caption>
                                 Lista clientes
                             </caption>
                             <thead>
                                 <tr>
-                                    <th class="centered">#</th>
-                                    <th class="centered">Nombre</th>
-                                    <th class="centered">Comercial</th>
-                                    <th class="centered">Teléfono</th>
-                                    <th class="centered">Correo</th>
-                                    <th class="centered">Ciudad</th>
-                                    <th class="centered">Fecha de contacto</th>
-                                    <th class="centered">Vía de entrada</th>
-                                    <th class="centered">Opciones</th>
+                                    <th>#</th>
+                                    <th>Nombre</th>
+                                    <th>Comercial</th>
+                                    <th>Teléfono</th>
+                                    <th>Correo</th>
+                                    <th>Ciudad</th>
+                                    <th>Fecha de contacto</th>
+                                    <th>Vía de entrada</th>
+                                    <th>Opciones</th>
                                 </tr>
                             </thead>
-                            <tbody id="tableBody_clientes"></tbody>
+                            <tbody id="lista_clientes">
+                                {% for cliente in clientes %}
+                                    <tr class="
+                                    {% if cliente.estado.slug == 'interesado' %} interesado table-primary 
+                                    {% elif cliente.estado.slug == 'visita' %} visita table-danger
+                                    {% elif cliente.estado.slug == 'comprando' %} comprando table-success 
+                                    {% elif cliente.estado.slug == 'postventa' %} postventa table-warning 
+                                    {% else %} table-secondary {% endif %}
+                                    ">
+                                        <td>{{ cliente.id_cliente }}</td>
+                                        <td>{{ cliente.nombre }}</td>
+                                        <td>{{ cliente.comercial }}</td>
+                                        <td>{{ cliente.telefono }}</td>
+                                        <td>{{ cliente.correo }}</td>
+                                        <td>{{ cliente.ciudad }}</td>
+                                        <td>{{ cliente.fecha_contacto }}</td>
+                                        <td>{{ cliente.via_entrada }}</td>
+                                        <td>
+                                            <a href="{% url 'productos:edit_cliente' cliente.id_cliente %}" class="btn btn-sm btn-primary"><i class="fa-solid fa-pencil"></i></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
                         </table>
                     </div>
                 </div>

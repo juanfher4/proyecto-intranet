@@ -94,8 +94,8 @@ def clientes(request, estado_slug=None, comercial_id=None):
     profiles = Profile.objects.filter(user__is_active=True, roles=rol)
     comerciales = profiles
     """ depuración """
-    print(Profile)
-    print(comerciales)
+    """ print(Profile)
+    print(comerciales) """
     if comercial_id:
         comercial = get_object_or_404(Profile,
                                       id=comercial_id,
