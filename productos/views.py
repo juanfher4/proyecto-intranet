@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http.response import JsonResponse
+from django.db.models import Q
 
 from usuarios.models import Profile, Rol
-from .models import Cliente, EstadoCliente, Producto, Espesor
+from .models import Cliente, EstadoCliente, Producto, Espesor, ProductoEspecifico, Ubicacion, EstadoProducto, EnvioProducto, EnvioMaterial
 from .forms import ClienteForm, ProductoForm
 
 @login_required
@@ -123,12 +124,6 @@ def clientes_lista(request, estado_slug=None):
                                                      'estado': estado,
                                                      'estados': estados})
 
-""" para hacer la parte de la lista me he basado en este video https://www.youtube.com/watch?v=vNu3ZsiM2Q8 """
-@login_required
-def clientes_json(_request):
-    clientes = list(Cliente.objects.values())
-    data = {'clients': clientes}
-    return JsonResponse(data)
 
 @login_required
 def crear_cliente(request):
@@ -155,3 +150,67 @@ def borrar_cliente(request, cliente_id):
     if request.method == 'POST':
         cliente.delete()
         return redirect('productos:clientes')
+
+""" 
+    Para hacer consultas tipo join en django he visitado este enlace
+    https://es.stackoverflow.com/questions/17275/django-como-hacer-consultas-en-varias-tablas-join 
+"""
+@login_required
+def ordenes(request):
+    productos_especificos = ProductoEspecifico.objects.all()
+    slug_en_construccion = get_object_or_404(EstadoProducto,
+                                     slug='en-construccion')
+    slug_enviado = get_object_or_404(EstadoProducto,
+                                     slug='enviado')
+    slug_reserva = get_object_or_404(EstadoProducto,
+                                     slug='reserva')
+    ordenes = productos_especificos.filter(Q(estado=slug_en_construccion) | Q(estado=slug_enviado) | Q(estado=slug_reserva))
+    return render(request, "prod_esp/ordenes.html", {
+        'ordenes': ordenes
+    })
+
+@login_required
+def visitas(request):
+    productos_especificos = ProductoEspecifico.objects.all()
+    slug_visita = get_object_or_404(EstadoProducto,
+                             slug="visita")
+    visitas = productos_especificos.filter(estado=slug_visita)
+    return render(request, "prod_esp/visitas.html", {
+        'visitas': visitas
+    })
+
+@login_required
+def acabadas(request):
+    productos_especificos = ProductoEspecifico.objects.all()
+    slug_acabado = get_object_or_404(EstadoProducto,
+                                     slug='acabado')
+    acabadas = productos_especificos.filter(estado=slug_acabado)
+    return render(request, 'prod_esp/acabadas.html', {
+        'acabadas': acabadas
+    })
+
+@login_required
+def seniales(request):
+    productos_especificos = ProductoEspecifico.objects.all()
+    slug_pago_completo = get_object_or_404(EstadoProducto,
+                                     slug='pago-completo')
+    slug_pago_parcial = get_object_or_404(EstadoProducto,
+                                     slug='pago-parcial')
+    seniales = productos_especificos.filter(Q(estado=slug_pago_completo) | Q(estado=slug_pago_parcial))
+    return render(request, 'prod_esp/seniales.html', {
+        'seniales': seniales
+    })
+
+@login_required
+def producto_especifico(request, producto_especifico_id):
+    prod_esp = get_object_or_404(ProductoEspecifico,
+                                id_prod_espe=producto_especifico_id)
+    ubi = Ubicacion.objects.filter(producto_especifico=prod_esp)
+    envio_producto = EnvioProducto.objects.filter(producto_especifico=prod_esp)
+    envio_material = EnvioMaterial.objects.filter(producto_especifico=prod_esp)
+    return render(request, 'prod_esp/producto_especifico.html', {
+        'prod_esp': prod_esp,
+        'ubi': ubi,
+        'envio_producto': envio_producto,
+        'envio_material': envio_material
+    })

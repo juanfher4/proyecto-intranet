@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Señales{% endblock %}
+
+{% block titulo %}Señales{% endblock %}
+
+{% block content %}
+<div class="container-pred producto-pred">
+  <nav aria-label="Page navigation example">
+    <ul class="pagination pagination-sm justify-content-center mt-3">
+      <li class="page-item"><a class="page-link" href="{% url 'home:home' %}">Inicio</a></li>
+      <li class="page-item"><a class="page-link" href="{% url 'home:tasks' %}">Tareas</a></li>
+    </ul>
+  </nav>
+  <div class="row pt-2">
+    <div class="col-lg-2 col-12">
+
+    </div>
+    <div class="col-lg-10 ordens">
+      {% for senial in seniales %}
+        <div class="card-contain">
+          <div class="card-producto">
+            <div class="imgbox">
+              <img src="{% if senial.producto.imagen %}{{ senial.producto.imagen.url }}{% else %}{% static 'img/logo.png' %}{% endif %}" class="card-img-top" alt="{{ senial.producto.nombre }}">
+            </div>
+            <div class="contenido">
+              <h4>{{ senial.producto }} | {{ senial.cliente }} | {{ senial.montador }}</h4>
+              <ul class="info">
+                <li>Precio: {{ senial.precio }}</li>
+                <li>Fecha de inicio del montaje: {{ senial.fecha_inicio_montaje }}</li>
+                <li>Fecha estimada acabado del montaje: {{ senial.fecha_acabado_montaje_estimado }}</li>
+                <li>Estado: {{ senial.estado }}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

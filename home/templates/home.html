@@ -15,7 +15,78 @@
         </ul>
     </nav>
     <div class="cont inicio">
-        <p>Casas vendidas este mes: 14</p>
+      <div class="row">
+        <a class="col-md-6" href="{% url 'productos:ordenes' %}">
+          <section class="inicio-ordenes p-2">
+            <h2>Órdenes</h2>
+            <div class="info">
+              <ul>
+                {% for orden in ordenes %}
+                  <li>
+                    {{ orden.producto }} |
+                    {{ orden.cliente }} |
+                    {{ orden.montador }} |
+                    {{ orden.precio }} |
+                    {{ orden.fecha_inicio_montaje }}
+                  </li>
+                  <hr>
+                {% endfor %}
+              </ul>
+            </div>
+          </section>
+        </a>
+        <a class="col-md-6" href="{% url 'productos:visitas' %}">
+          <section class="inicio-visitas p-2">
+            <h2>Visitas</h2>
+            <div class="info">
+              {% for visita in visitas %}
+                <li>
+                  {{ visita.producto }} |
+                  {{ visita.cliente }} |
+                  {{ visita.montador }} |
+                  {{ visita.precio }} |
+                  {{ visita.fecha_inicio_montaje }}
+                </li>
+                <hr>
+              {% endfor %}
+            </div>
+          </section>
+        </a>
+        <a class="col-md-6" href="{% url 'productos:acabadas' %}">
+          <section class="inicio-acabadas p-2">
+            <h2>Acabadas</h2>
+            <div class="info">
+              {% for acabada in acabadas %}
+                <li>
+                  {{ acabada.producto }} |
+                  {{ acabada.cliente }} |
+                  {{ acabada.montador }} |
+                  {{ acabada.precio }} |
+                  {{ acabada.fecha_inicio_montaje }}
+                </li>
+                <hr>
+              {% endfor %}
+            </div>
+          </section>
+        </a>
+        <a class="col-md-6" href="{% url 'productos:seniales' %}">
+          <section class="inicio-seniales p-2">
+            <h2>Señales</h2>
+            <div class="info">
+              {% for senial in seniales %}
+                <li>
+                  {{ senial.producto }} |
+                  {{ senial.cliente }} |
+                  {{ senial.montador }} |
+                  {{ senial.precio }} |
+                  {{ senial.fecha_inicio_montaje }}
+                </li>
+                <hr>
+              {% endfor %}
+            </div>
+          </section>
+        </a>
+      </div>
     </div>
 </div>
 {% endblock %}

@@ -54,12 +54,22 @@ class UbicacionInline(admin.StackedInline):
     extra = 1
     fields = ['latitud', 'longitud']
 
+class EnvioProductoInline(admin.StackedInline):
+    model = EnvioProducto
+    extra = 1
+    fields = ['producto', 'proveedor', 'fecha_salida', 'fecha_llegada_estimada', 'fecha_llegada_real', 'estado']
+
+class EnvioMaterialInline(admin.StackedInline):
+    model = EnvioMaterial
+    extra = 1
+    fields = ['material', 'proveedor', 'fecha_salida', 'fecha_llegada_estimada', 'fecha_llegada_real', 'estado']
+
 @admin.register(ProductoEspecifico)
 class ProductoEspecificoAdmin(admin.ModelAdmin):
-    list_display = ['cliente', 'montador', 'fecha_inicio_montaje', 'fecha_acabado_montaje']
+    list_display = ['cliente', 'montador', 'precio', 'fecha_inicio_montaje', 'fecha_acabado_montaje_estimado', 'fecha_acabado_montaje', 'estado']
     list_filter = ['montador']
     search_fields = ['producto__nombre', 'cliente__nombre']
-    inlines = [UbicacionInline]
+    inlines = [UbicacionInline, EnvioProductoInline, EnvioMaterialInline]
 
 @admin.register(Montador)
 class MontadorAdmin(admin.ModelAdmin):
@@ -81,11 +91,3 @@ class MaterialAdmin(admin.ModelAdmin):
             lista_proveedores.append(proveedor.nombre)
         return ", ".join(lista_proveedores)
     display_proveedores.short_description = 'Proveedores'
-
-@admin.register(EnvioProducto)
-class EnvioProductoAdmin(admin.ModelAdmin):
-    list_display = ['producto', 'proveedor', 'fecha_salida', 'fecha_llegada_estimada', 'fecha_llegada_real', 'estado']
-
-@admin.register(EnvioMaterial)
-class EnvioMaterialAdmin(admin.ModelAdmin):
-    list_display = ['material', 'proveedor', 'fecha_salida', 'fecha_llegada_estimada', 'fecha_llegada_real', 'estado']

@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Producto específico{% endblock %}
+
+{% block titulo %}Producto específico{% endblock %}
+
+{% block content %}
+<div class="container-pred prod_esp">
+  <div class="row">
+    <div class="col-12 producto_esp">
+      <div class="row">
+        <div class="col-lg-4 col-sm-6 col-12 imagen">
+          <img src="{% if prod_esp.producto.imagen %}{{ prod_esp.producto.imagen.url }}{% else %}{% static 'img/logo.png' %}{% endif %}" class="img" alt="{{ prod_esp.producto.nombre }}">
+        </div>
+        <div class="col-lg-4 col-sm-6 col-12">
+          <div class="row detalles">
+            <div class="col-3">
+              <p>Producto: </p>
+              <span>{{ prod_esp.producto.nombre }}</span>
+              <p>Cliente: </p>
+              <span>{{ prod_esp.cliente.nombre }}</span>
+              <p>Montador: </p>
+              <span>{{ prod_esp.montador.nombre }}</span>
+              <p>Precio: </p>
+              <span>{{ prod_esp.precio }}</span>
+            </div>
+            <div class="col-3">
+              <p>Inicio montaje: </p>
+              <span>{{ prod_esp.fecha_inicio_montaje|date:"d/m/Y" }}</span>
+              <p>Montaje acabado estimado: </p>
+              <span>{{ prod_esp.fecha_acabado_montaje_estimado|date:"d/m/Y" }}</span>
+              <p>Montaje acabado: </p>
+              <span>{{ prod_esp.fecha_acabado_montaje|date:"d/m/Y" }}</span>
+              <p>Estado: </p>
+              <span>{{ prod_esp.estado }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-12 mapa">
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-12 prod_esp_hijo">
+      <h3>Envío productos</h3>
+      <div class="accordion accordion-flush pt-3" id="accordionFlushExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+              Añadir producto
+            </button>
+          </h2>
+          <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item’s accordion body.</div>
+          </div>
+        </div>        
+      </div>
+    </div>
+    <div class="col-md-6 col-12 prod_esp_hijo">
+      <h3>Envío materiales</h3>
+      <div class="accordion accordion-flush pt-3" id="accordionFlushExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+              Añadir material
+            </button>
+          </h2>
+          <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the second item’s accordion body. Let’s imagine this being filled with some actual content.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

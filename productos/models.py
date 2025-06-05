@@ -74,7 +74,7 @@ class Producto(models.Model):
                                blank=True)
 
     def __str__(self):
-        return f"{self.nombre} - $ {self.precio}"
+        return f"{self.nombre}"
 
 class EstadoCliente(models.Model):
     nombre = models.CharField(max_length=200)
@@ -120,7 +120,7 @@ class Montador(models.Model):
     nota = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return self.nombre
+        return f"Montador: {self.nombre}"
 
 class EstadoProducto(models.Model):
     id_estado_producto = models.AutoField(primary_key=True)
@@ -133,6 +133,11 @@ class EstadoProducto(models.Model):
 class ProductoEspecifico(models.Model):
     id_prod_espe = models.AutoField(primary_key=True)
     
+    producto = models.ForeignKey(
+        Producto,
+        on_delete=models.RESTRICT,
+        related_name="producto_especifico"
+    )
     cliente = models.ForeignKey(
         Cliente,
         on_delete=models.CASCADE,
@@ -147,19 +152,6 @@ class ProductoEspecifico(models.Model):
     fecha_inicio_montaje = models.DateTimeField()
     fecha_acabado_montaje_estimado = models.DateTimeField(blank=True, null=True)
     fecha_acabado_montaje = models.DateTimeField(blank=True, null=True)
-    nota = models.TextField(blank=True, null=True)
-    envio_producto = models.ForeignKey(
-        "EnvioProducto",
-        on_delete=models.CASCADE,
-        related_name="productos_especificos",
-        blank=True,
-        null=True
-    )
-    envio_material = models.ManyToManyField(
-        "EnvioMaterial",
-        related_name="productos_especificos",
-        blank=True
-    )
     estado = models.ForeignKey(
         EstadoProducto,
         on_delete=models.SET_NULL,
@@ -168,7 +160,7 @@ class ProductoEspecifico(models.Model):
     )
 
     def __str__(self):
-        return f"{self.producto.nombre} de {self.cliente.nombre} montado por {self.montador.nombre}"
+        return f"Producto de {self.cliente.nombre} montado por {self.montador.nombre}"
 
 class Ubicacion(models.Model):
     id_ubicacion = models.AutoField(primary_key=True)
@@ -211,9 +203,16 @@ class EnvioProducto(models.Model):
     )
     cantidad = models.IntegerField(default=1)
     nota = models.TextField(blank=True, null=True)
+    producto_especifico = models.ForeignKey(
+        ProductoEspecifico,
+        on_delete=models.CASCADE,
+        related_name='envios_producto',
+        blank=True,
+        null=True
+    )
 
     def __str__(self):
-        return f"Envío de {self.producto.nombre} de {self.proveedor.nombre}. Estado: {self.get_estado_envio_display()}" # get_estado_envio_display() es un método que crea django a partir de el estado del envío
+        return f"Envío de {self.producto.nombre} de {self.proveedor.nombre}."
 
 class EnvioMaterial(models.Model):
     id_envio = models.AutoField(primary_key=True)
@@ -244,10 +243,10 @@ class EnvioMaterial(models.Model):
     producto_especifico = models.ForeignKey(
         ProductoEspecifico,
         on_delete=models.CASCADE,
-        related_name='envios',
+        related_name='envios_material',
         blank=True,
         null=True
     )
 
     def __str__(self):
-        return f"Envío de {self.material.nombre} de {self.proveedor.nombre}. Estado: {self.get_estado_envio_display()}" # get_estado_envio_display() es un método que crea django a partir de el estado del envío
+        return f"Envío de {self.material.nombre} de {self.proveedor.nombre}."

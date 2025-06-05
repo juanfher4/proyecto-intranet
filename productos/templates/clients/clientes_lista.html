@@ -13,7 +13,7 @@
 
             <h3 class="my-4">Comercial</h3>
             <ul class="list-group pt-1">
-                <a href="{% url 'productos:clientes' %}" class="all list-group-item {% if not comercial %}active{% endif %}">Todos</a>
+                <a href="{% url 'productos:clientes_lista' %}" class="all list-group-item {% if not comercial %}active{% endif %}">Todos</a>
                 {% for comerc in comerciales %}
                     <a class="r {% if comercial == comerc.nombre %}active{% endif %}" href="{{ comerc.get_absolute_url }}">{{ comerc.user.first_name }} {{ comerc.user.last_name }}</a>
                 {% endfor %}

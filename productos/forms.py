@@ -1,5 +1,5 @@
 from django import forms
-from .models import Cliente, Producto, Espesor, TipoProducto
+from .models import Cliente, Producto, Espesor, TipoProducto, ProductoEspecifico, Ubicacion, EnvioProducto, EnvioMaterial, Material, Proveedor
 
 class ClienteForm(forms.ModelForm):
     class Meta:
