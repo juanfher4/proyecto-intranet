@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  db:
+    image: mariadb
+    restart: always
+    ports:
+      - 8080:8080
+    enviroment:
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+        - .:/proyecto-intranet
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
