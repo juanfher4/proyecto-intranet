@@ -25,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', True) == 'False')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '*']
 
 
 # Application definition
@@ -80,11 +80,11 @@ WSGI_APPLICATION = 'intranet.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mariadb',
-        'NAME': BASE_DIR / 'db.mariadb',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ.get('MARIADB_DATABASE'),
         'USER': os.environ.get('MARIADB_USER'),
-        'PASSWORD': 'password',
-        'HOST': 'db',
+        'PASSWORD': os.environ.get('MARIADB_PASSWORD'),
+        'HOST': os.environ.get('MARIADB_HOST'),
         'PORT': 3306,
     }
 }
