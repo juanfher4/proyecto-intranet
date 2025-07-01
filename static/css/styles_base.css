@@ -1,3 +1,4 @@
+
 *:not(.modal-dialog) {
     text-decoration: none !important;
     margin: 0 !important;
@@ -690,12 +691,14 @@ input:focus-visible {
 /* edit_cliente */
 
 /* productos */
-
+/* Refuerzo para asegurar que el fondo y sombra se apliquen siempre a las tarjetas de productos */
+.container-pred.productos .card,
+.productos .vista-cartas .card,
 .productos .card {
-    transition: .2s;
-    box-shadow: 5px 5px 20px -7px #5B4A32;
+    transition: .2s !important;
+    box-shadow: 5px 5px 20px -7px #a97428 !important;
+    background-color: #ffd7a96e !important;
 }
-
 .productos .card:hover {
     transform: scale(1.03);
 }
@@ -707,7 +710,7 @@ input:focus-visible {
 
 .productos img {
     box-shadow: 5px 5px 20px -7px #5B4A32;
-    max-height: 140px;
+    height: 120px;
 }
 
 .productos .card:hover .card-title {

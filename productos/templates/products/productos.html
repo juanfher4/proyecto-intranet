@@ -17,13 +17,13 @@
         <div class="col-lg-9 p-3">
             <!-- Navegación vista -->
             <!-- Vista cartas -->
-            <div class="row text-center vista-cartas">
+            <div class="row text-center vista-cartas align-items-stretch">
                 {% for producto in productos %}
-                    <div class="col-lg-3 col-md-4 col-6 p-1">
-                        <a href="{% url 'productos:edit_producto' producto.id_producto %}">
-                            <div class="card">
+                    <div class="col-lg-3 col-md-4 col-6 p-1 d-flex">
+                        <a href="{% url 'productos:edit_producto' producto.id_producto %}" class="flex-fill text-decoration-none text-dark">
+                            <div class="card h-100">
                                 <img src="{% if producto.imagen %}{{ producto.imagen.url }}{% else %}{% static 'img/casa.jpg' %}{% endif %}" class="card-img-top" alt="{{ producto.nombre }}">
-                                <div class="card-text">
+                                <div class="card-text p-2">
                                     <h5 class="card-title p-2">{{ producto.nombre }}</h5>
                                     <i>
                                         {% for espesore in producto.espesores.all %}

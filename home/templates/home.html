@@ -15,28 +15,31 @@
         </ul>
     </nav>
     <div class="cont inicio">
-      <div class="row">
-        <a class="col-md-6" href="{% url 'productos:ordenes' %}">
-          <section class="inicio-ordenes p-2">
-            <h2>Órdenes</h2>
-            <div class="info">
-              <ul>
-                {% for orden in ordenes %}
-                  <li>
-                    {{ orden.producto }} |
-                    {{ orden.cliente }} |
-                    {{ orden.montador }} |
-                    {{ orden.precio }} |
-                    {{ orden.fecha_inicio_montaje }}
-                  </li>
-                  <hr>
-                {% endfor %}
-              </ul>
-            </div>
+      <div class="row align-items-stretch">
+        <div class="col-md-6 d-flex">
+          <section class="inicio-ordenes p-2 flex-fill">
+            <a href="{% url 'productos:ordenes' %}" class="text-decoration-none text-dark">
+              <h2>Órdenes</h2>
+              <div class="info">
+                <ul>
+                  {% for orden in ordenes %}
+                    <li>
+                      {{ orden.producto }} |
+                      {{ orden.cliente }} |
+                      {{ orden.montador }} |
+                      {{ orden.precio }} |
+                      {{ orden.fecha_inicio_montaje }}
+                    </li>
+                    <hr>
+                  {% endfor %}
+                </ul>
+              </div>
+            </a>
           </section>
-        </a>
-        <a class="col-md-6" href="{% url 'productos:visitas' %}">
-          <section class="inicio-visitas p-2">
+        </div>
+        <div class="col-md-6 d-flex">
+          <section class="inicio-visitas p-2 flex-fill">
+            <a href="{% url 'productos:visitas' %}" class="text-decoration-none text-dark">
             <h2>Visitas</h2>
             <div class="info">
               {% for visita in visitas %}
@@ -50,10 +53,12 @@
                 <hr>
               {% endfor %}
             </div>
+            </a>
           </section>
-        </a>
-        <a class="col-md-6" href="{% url 'productos:acabadas' %}">
-          <section class="inicio-acabadas p-2">
+        </div>
+        <div class="col-md-6 d-flex">
+          <section class="inicio-acabadas p-2 flex-fill">
+            <a href="{% url 'productos:acabadas' %}" class="text-decoration-none text-dark">
             <h2>Acabadas</h2>
             <div class="info">
               {% for acabada in acabadas %}
@@ -67,10 +72,12 @@
                 <hr>
               {% endfor %}
             </div>
+            </a>
           </section>
-        </a>
-        <a class="col-md-6" href="{% url 'productos:seniales' %}">
-          <section class="inicio-seniales p-2">
+        </div>
+        <div class="col-md-6 d-flex">
+          <section class="inicio-seniales p-2 flex-fill">
+            <a href="{% url 'productos:seniales' %}" class="text-decoration-none text-dark">
             <h2>Señales</h2>
             <div class="info">
               {% for senial in seniales %}
@@ -84,8 +91,9 @@
                 <hr>
               {% endfor %}
             </div>
+            </a>
           </section>
-        </a>
+        </div>
       </div>
     </div>
 </div>
