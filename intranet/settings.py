@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'usuarios.apps.UsuariosConfig',
     'home.apps.HomeConfig',
     'productos.apps.ProductosConfig',
+    'mapa.apps.MapaConfig',
 ]
 
 MIDDLEWARE = [

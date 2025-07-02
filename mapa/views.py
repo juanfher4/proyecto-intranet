@@ -2,4 +2,4 @@ from django.shortcuts import render
 
 def mapa(request):
 
-  return render(request, 'templates/mapa.html')
+  return render(request, 'mapa/mapa.html')

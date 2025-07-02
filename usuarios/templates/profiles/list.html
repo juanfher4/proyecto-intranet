@@ -24,9 +24,9 @@
             <h3 class="mb-4">{% if rol %}{{ rol.nombre }}{% else %}Perfiles{% endif %}</h3>
             <div class="row">
                 {% for profile in profiles %}
-                    <div class="col-lg-3 col-md-4 col-6 p-1">
-                        <div class="card">
-                            <img src="{% if profile.imagen %}{{ profile.imagen.url }}{% else %}{% static 'img/profile.jpg' %}{% endif %}" class="card-img-top" alt="{{ profile.user.get_full_name }}">
+                    <div class="col-lg-3 col-md-4 col-6 p-1 d-flex">
+                        <div class="card h-100">
+                            <img src="{% if profile.imagen %}{{ profile.imagen.url }}{% else %}{% static 'img/profile.jpg' %}{% endif %}" class="card-img-top" alt="{{ profile.user.get_full_name }}" height="200">
                             <div class="card-text">
                                 <h5 class="card-title p-2">{{ profile.user.get_full_name }}</h5>
                                 <i>
