@@ -4,8 +4,8 @@ from django.http.response import JsonResponse
 from django.db.models import Q
 
 from usuarios.models import Profile, Rol
-from .models import Cliente, EstadoCliente, Producto, Espesor, ProductoEspecifico, Ubicacion, EstadoProducto, EnvioProducto, EnvioMaterial
-from .forms import ClienteForm, ProductoForm
+from .models import Cliente, EstadoCliente, Producto, Espesor, ProductoEspecifico, Ubicacion, EstadoProducto, EnvioProducto, EnvioMaterial, ProductoEspesor, TipoProducto
+from .forms import ClienteForm, ProductoForm, EnvioProductoForm, EnvioMaterialForm, ProductoEspecificoForm, UbicacionForm, ProductoEspesorForm
 
 @login_required
 def productos(request, espesor_id=None):
@@ -13,14 +13,50 @@ def productos(request, espesor_id=None):
     espesores = Espesor.objects.all()
     productos = Producto.objects.all()
 
-    if espesor_id:
-        espesor = get_object_or_404(Espesor,
-                                    id_espesor=espesor_id)
-        productos = productos.filter(espesores=espesor)
+    # Filtros de búsqueda
+    num_habitaciones = request.GET.get('num_habitaciones')
+    num_banios = request.GET.get('num_banios')
+    num_plantas = request.GET.get('num_plantas')
+    num_cocina = request.GET.get('num_cocina')
+    tipo_productos = request.GET.get('tipo_productos')
 
-    return render(request, 'products/productos.html', {'productos': productos,
-                                                       'espesor': espesor,
-                                                       'espesores': espesores})
+    if espesor_id:
+        espesor = get_object_or_404(Espesor, id_espesor=espesor_id)
+        productos = productos.filter(precios_espesor__espesor=espesor).distinct()
+    if num_habitaciones:
+        productos = productos.filter(num_habitaciones=num_habitaciones)
+    if num_banios:
+        productos = productos.filter(num_banios=num_banios)
+    if num_plantas:
+        productos = productos.filter(num_plantas=num_plantas)
+    if num_cocina:
+        productos = productos.filter(num_cocina=num_cocina)
+    if tipo_productos: 
+        productos = productos.filter(tipo_productos__slug=tipo_productos).distinct()
+    
+    tipos = TipoProducto.objects.all()
+    habitaciones = productos.values_list('num_habitaciones', flat=True).distinct().order_by('num_habitaciones')
+    banios = productos.values_list('num_banios', flat=True).distinct().order_by('num_banios')
+    plantas = productos.values_list('num_plantas', flat=True).distinct().order_by('num_plantas')
+    cocina = productos.values_list('num_cocina', flat=True).distinct().order_by('num_cocina')
+
+    return render(request, 'products/productos.html', {
+        'productos': productos,
+        'espesor': espesor,
+        'espesores': espesores,
+        'tipos': tipos,
+        'habitaciones': habitaciones,
+        'banios': banios,
+        'plantas': plantas,
+        'cocina': cocina,
+        'filtros': {
+            'num_habitaciones': num_habitaciones,
+            'num_banios': num_banios,
+            'num_plantas': num_plantas,
+            'num_cocina': num_cocina,
+            'tipo_productos': tipo_productos,
+        }
+    })
 
 @login_required
 def crear_producto(request):
@@ -31,7 +67,7 @@ def crear_producto(request):
         })
     else:
         try:
-            form = ProductoForm(request.POST)
+            form = ProductoForm(request.POST, request.FILES)
             nuevo_producto = form.save(commit=False)
             nuevo_producto.save()
             return redirect('productos:productos')
@@ -43,18 +79,40 @@ def crear_producto(request):
 
 @login_required
 def edit_producto(request, producto_id):
-    if request.method == 'GET':
-        producto = get_object_or_404(Producto, id_producto=producto_id)
-        form = ProductoForm(instance=producto)
-        return render(request, 'products/edit_producto.html', {'producto': producto, 'form': form})
+    producto = get_object_or_404(Producto, id_producto=producto_id)
+    precios_espesor = producto.precios_espesor.select_related('espesor').all()
+    error = None
+
+    if request.method == 'POST':
+        # Formulario principal de producto
+        form = ProductoForm(request.POST, request.FILES, instance=producto)
+        form_espesor = ProductoEspesorForm(request.POST)
+        # Verifica si el submit viene del modal de espesores
+        if 'espesor' in request.POST and 'precio' in request.POST:
+            if form_espesor.is_valid():
+                precio_espesor = form_espesor.save(commit=False)
+                precio_espesor.producto = producto
+                precio_espesor.save()
+                return redirect('productos:edit_producto', producto_id=producto.id_producto)
+            else:
+                error = 'Error al añadir el espesor'
+        else:
+            if form.is_valid():
+                form.save()
+                return redirect('productos:productos')
+            else:
+                error = 'Error al actualizar el producto'
     else:
-        try:
-            producto = get_object_or_404(Producto, id_producto=producto_id)
-            form = ProductoForm(data=request.POST, instance=producto, files=request.FILES)
-            form.save()
-            return redirect('productos:productos')
-        except ValueError:
-            return render(request, 'products/edit_producto.html', {'producto': producto, 'form': form, 'error': 'Error al actualizar el producto'})
+        form = ProductoForm(instance=producto)
+        form_espesor = ProductoEspesorForm()
+
+    return render(request, 'products/edit_producto.html', {
+        'producto': producto,
+        'form': form,
+        'form_espesor': form_espesor,
+        'precios_espesor': precios_espesor,
+        'error': error,
+    })
 
 @login_required
 def edit_cliente(request, cliente_id):
@@ -88,7 +146,7 @@ def clientes(request, estado_slug=None, comercial_id=None):
     if estado_slug:
         estado = get_object_or_404(EstadoCliente,
                                    slug=estado_slug)
-        clientes = clientes.filter(estados=estado)
+        clientes = clientes.filter(estado=estado)
 
     rol = get_object_or_404(Rol,
                             slug='comercial')
@@ -110,20 +168,35 @@ def clientes(request, estado_slug=None, comercial_id=None):
                                                      'comerciales': comerciales})
 
 @login_required
-def clientes_lista(request, estado_slug=None):
+def clientes_lista(request, estado_slug=None, comercial_id=None):
     estado = None
+    comercial = None
     estados = EstadoCliente.objects.all()
     clientes = Cliente.objects.all()
 
     if estado_slug:
         estado = get_object_or_404(EstadoCliente,
                                    slug=estado_slug)
-        clientes = clientes.filter(estados=estado)
+        clientes = clientes.filter(estado=estado)
+
+    rol = get_object_or_404(Rol,
+                            slug='comercial')
+    profiles = Profile.objects.filter(user__is_active=True, roles=rol)
+    comerciales = profiles
+    """ depuración """
+    """ print(Profile)
+    print(comerciales) """
+    if comercial_id:
+        comercial = get_object_or_404(Profile,
+                                      id=comercial_id,
+                                      roles=rol)
+        clientes = clientes.filter(comercial=comercial)
 
     return render(request, 'clients/clientes_lista.html', {'clientes': clientes,
-                                                     'estado': estado,
-                                                     'estados': estados})
-
+                                                            'estado': estado,
+                                                            'estados': estados,
+                                                            'comercial': comercial,
+                                                            'comerciales': comerciales})
 
 @login_required
 def crear_cliente(request):
@@ -156,17 +229,21 @@ def borrar_cliente(request, cliente_id):
     https://es.stackoverflow.com/questions/17275/django-como-hacer-consultas-en-varias-tablas-join 
 """
 @login_required
-def ordenes(request):
+def ordenes(request, estado_slug=None):
+    estado = None
+    estados = EstadoProducto.objects.filter(slug__in=['en-construccion', 'enviado', 'reserva'])
     productos_especificos = ProductoEspecifico.objects.all()
-    slug_en_construccion = get_object_or_404(EstadoProducto,
-                                     slug='en-construccion')
-    slug_enviado = get_object_or_404(EstadoProducto,
-                                     slug='enviado')
-    slug_reserva = get_object_or_404(EstadoProducto,
-                                     slug='reserva')
-    ordenes = productos_especificos.filter(Q(estado=slug_en_construccion) | Q(estado=slug_enviado) | Q(estado=slug_reserva))
+    if estado_slug:
+        estado = get_object_or_404(EstadoProducto,
+                                   slug=estado_slug)
+        productos_especificos = productos_especificos.filter(estado=estado)
+    else:
+        productos_especificos = productos_especificos.filter(estado__slug__in=['en-construccion', 'enviado', 'reserva'])
+    
     return render(request, "prod_esp/ordenes.html", {
-        'ordenes': ordenes
+        'ordenes': productos_especificos,
+        'estado': estado,
+        'estados': estados,
     })
 
 @login_required
@@ -190,15 +267,22 @@ def acabadas(request):
     })
 
 @login_required
-def seniales(request):
+def seniales(request, estado_slug=None):
+    estado = None
+    estados = EstadoProducto.objects.filter(slug__in=['pago-completo', 'pago-parcial'])
     productos_especificos = ProductoEspecifico.objects.all()
-    slug_pago_completo = get_object_or_404(EstadoProducto,
-                                     slug='pago-completo')
-    slug_pago_parcial = get_object_or_404(EstadoProducto,
-                                     slug='pago-parcial')
-    seniales = productos_especificos.filter(Q(estado=slug_pago_completo) | Q(estado=slug_pago_parcial))
+    
+    if estado_slug:
+        estado = get_object_or_404(EstadoProducto,
+                                   slug=estado_slug)
+        productos_especificos = productos_especificos.filter(estado=estado)
+    else:
+        productos_especificos = productos_especificos.filter(estado__slug__in=['pago-completo', 'pago-parcial'])
+    
     return render(request, 'prod_esp/seniales.html', {
-        'seniales': seniales
+        'seniales': productos_especificos,
+        'estado': estado,
+        'estados': estados,
     })
 
 @login_required
@@ -212,5 +296,59 @@ def producto_especifico(request, producto_especifico_id):
         'prod_esp': prod_esp,
         'ubi': ubi,
         'envio_producto': envio_producto,
-        'envio_material': envio_material
+        'envio_material': envio_material,
+        'form_envio_producto': EnvioProductoForm,
+        'form_envio_material': EnvioMaterialForm,
     })
+
+@login_required
+def aniadir_producto_especifico(request):
+    if request.method == 'GET':
+        return render(request, "prod_esp/aniadir_producto_especifico.html", {
+            'form_prod_esp': ProductoEspecificoForm,
+            'form_ubicacion': UbicacionForm,
+        })
+    else:
+        try:
+            form = ProductoEspecificoForm(request.POST)
+            nuevo_producto_especifico = form.save(commit=False)
+            nuevo_producto_especifico.save()
+            return redirect('home:home')
+        except ValueError:
+            return render(request, "prod_esp/aniadir_producto_especifico.html", {
+                'form_prod_esp': ProductoEspecificoForm,
+                'form_ubicacion': UbicacionForm,
+                'error': 'Por favor, proporciona datos correctos'
+            })
+
+@login_required
+def editar_producto_especifico(request, producto_especifico_id):
+    if request.method == 'GET':
+        prod_esp = get_object_or_404(ProductoEspecifico, id_prod_espe=producto_especifico_id)
+        form_prod_esp = ProductoEspecificoForm(instance=prod_esp)
+        form_ubicacion = UbicacionForm()
+        return render(request, 'prod_esp/editar_producto_especifico.html', {
+            'prod_esp': prod_esp, 
+            'form_prod_esp': form_prod_esp,
+            'form_ubicacion': form_ubicacion
+            })
+    else:
+        try:
+            prod_esp = get_object_or_404(ProductoEspecifico, id_prod_espe=producto_especifico_id)
+            form_prod_esp = ProductoEspecificoForm(data=request.POST, instance=prod_esp)
+            form_ubicacion = UbicacionForm(data=request.POST)
+            form_prod_esp.save()
+            return redirect('home:home')
+        except ValueError:
+            return render(request, 'prod_esp/editar_producto_especifico.html', {
+                'prod_esp': prod_esp,
+                'form_prod_esp': form_prod_esp,
+                'form_ubicacion': form_ubicacion,
+                'error': 'Error al actualizar el producto específico'})
+
+@login_required
+def borrar_producto_especifico(request, producto_especifico_id):
+    prod_esp = get_object_or_404(ProductoEspecifico, pk=producto_especifico_id)
+    if request.method == 'POST':
+        prod_esp.delete()
+        return redirect('home:home')

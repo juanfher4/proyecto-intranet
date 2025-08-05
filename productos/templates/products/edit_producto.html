@@ -5,7 +5,7 @@
 {% block titulo %}Editar producto{% endblock %}
 
 {% block content %}
-<div class="div-formulario">
+<div class="div-formulario" method="post" enctype="multipart/form-data">
 
     {{ error }}
 
@@ -14,9 +14,7 @@
         <div class="row">
             <div class="col-lg-6">
                 {{ form.nombre.label_tag }}
-                <span>{{ form.nombre }}</span>
-                {{ form.precio.label_tag }}
-                {{ form.precio }}
+                {{ form.nombre }}
                 {{ form.num_habitaciones.label_tag }}
                 {{ form.num_habitaciones }}
                 {{ form.num_banios.label_tag }}
@@ -25,22 +23,26 @@
                 {{ form.num_cocina }}
                 {{ form.num_plantas.label_tag }}
                 {{ form.num_plantas }}
+                {{ form.imagen.label_tag }}
+                {{ form.imagen }}
+            </div>
+            <div class="col-lg-6">
                 {{ form.pared_m2.label_tag }}
                 {{ form.pared_m2 }}
                 {{ form.suelo_m2.label_tag }}
                 {{ form.suelo_m2 }}
                 {{ form.tejado_m2.label_tag }}
                 {{ form.tejado_m2 }}
-            </div>
-            <div class="col-lg-6">
-                {{ form.espesores.label_tag }}
-                {{ form.espesores }}
                 {{ form.tipo_productos.label_tag }}
                 {{ form.tipo_productos }}
-                {{ form.imagen.label_tag }}
-                {{ form.imagen }}
             </div>
             <div>
+                <!-- Botón modal para espesores -->
+                <div class="d-flex justify-content-end">
+                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#espesorModal">
+                        Espesores
+                    </button>
+                </div>
                 <button class="btn btn-primary">
                     Actualizar
                 </button>
@@ -54,7 +56,7 @@
     </form>
 
 
-    <!-- Modal -->
+    <!-- Modal borrar -->
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -72,6 +74,45 @@
                         {% csrf_token %}
                         <button class="btn btn-danger" type="submit">Borrar</button>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal espesores -->
+    <div class="modal fade" id="espesorModal" tabindex="-1" aria-labelledby="espesorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="espesorModalLabel">Gestionar espesores</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h3>Selecciona espesor y precio:</h3>
+                    <form action="{% url 'productos:edit_producto' producto.id_producto %}" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            {{ form_espesor.espesor.label_tag }}
+                            {{ form_espesor.espesor }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_espesor.precio.label_tag }}
+                            {{ form_espesor.precio }}
+                        </div>
+                        <button type="submit" class="btn btn-primary">Añadir</button>
+                    </form>
+                    <hr>
+                    <h4>Espesores y precios actuales:</h4>
+                    <ul>
+                        {% for precio in precios_espesor %}
+                            <li>{{ precio.espesor.nombre }}: {{ precio.precio }} €</li>
+                        {% empty %}
+                            <li>No hay espesores asignados.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>

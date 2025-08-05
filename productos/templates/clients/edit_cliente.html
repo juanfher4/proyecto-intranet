@@ -11,16 +11,43 @@
 
     <form method="post">
         {% csrf_token %}
-        {{ form.as_table }}
-        <button class="btn btn-primary">
-            Actualizar
-        </button>
-    </form>
+        <div class="row">
+            <div class="col-lg-6">
+                {{ form.nombre.label_tag }}
+                {{ form.nombre }}
+                {{ form.telefono.label_tag }}
+                {{ form.telefono }}
+                {{ form.correo.label_tag }}
+                {{ form.correo }}
+                {{ form.ciudad.label_tag }}
+                {{ form.ciudad }}
+                {{ form.fecha_contacto.label_tag }}
+                {{ form.fecha_contacto }}
+                {{ form.via_entrada.label_tag }}
+                {{ form.via_entrada }}
+            </div>
+            <div class="col-lg-6">
+                {{ form.comercial.label_tag }}
+                {{ form.comercial }}
+                {{ form.estado.label_tag }}
+                {{ form.estado }}
+                {{ form.nota.label_tag }}
+                {{ form.nota }}
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-primary">
+                Actualizar
+            </button>
+            <a href="{% url 'productos:clientes' %}" class="btn btn-secondary">Volver</a>
+                    
+            <!-- Botón modal para borrar -->
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Borrar cliente
+            </button>
 
-    <!-- Botón modal para borrar -->
-    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Borrar cliente
-    </button>
+        </div>
+    </form>
 
     <!-- Modal -->
 

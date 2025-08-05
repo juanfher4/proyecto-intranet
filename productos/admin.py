@@ -22,8 +22,8 @@ class TipoProductoAdmin(admin.ModelAdmin):
 
 @admin.register(Producto)
 class ProductoAdmin(admin.ModelAdmin):
-    list_display = ['nombre', 'precio', 'display_espesores', 'display_tipos']
-    list_filter = ['tipo_productos', 'espesores', 'num_habitaciones', 'num_plantas', 'num_banios', 'precio']
+    list_display = ['nombre', 'display_espesores', 'display_tipos']
+    list_filter = ['tipo_productos', 'num_habitaciones', 'num_plantas', 'num_banios']
 
     def display_tipos(self, obj):
         lista_tipos = []
@@ -34,13 +34,13 @@ class ProductoAdmin(admin.ModelAdmin):
 
     def display_espesores(self, obj):
         lista_espesores = []
-        for espesor in obj.espesores.all():
+        for precio_espesor in obj.precios_espesor.select_related('espesor').all():
+            espesor = precio_espesor.espesor
+            nombre = espesor.nombre
             if espesor.revestimiento:
-                revestimiento = "rev"
-                lista_espesores.append(f"{espesor.nombre} ({revestimiento})")
+                lista_espesores.append(f"{nombre} (rev) - {precio_espesor.precio}€")
             else:
-                revestimiento = ""
-                lista_espesores.append(f"{espesor.nombre}")
+                lista_espesores.append(f"{nombre} - {precio_espesor.precio}€")
         return ", ".join(lista_espesores)
     display_espesores.short_description = 'Espesores'
 
@@ -57,12 +57,12 @@ class UbicacionInline(admin.StackedInline):
 class EnvioProductoInline(admin.StackedInline):
     model = EnvioProducto
     extra = 1
-    fields = ['producto', 'proveedor', 'fecha_salida', 'fecha_llegada_estimada', 'fecha_llegada_real', 'estado']
+    fields = ['producto', 'proveedor', 'fecha_salida', 'fecha_llegada_estimada', 'fecha_llegada_real', 'estado', 'cantidad', 'nota', 'producto_especifico']
 
 class EnvioMaterialInline(admin.StackedInline):
     model = EnvioMaterial
     extra = 1
-    fields = ['material', 'proveedor', 'fecha_salida', 'fecha_llegada_estimada', 'fecha_llegada_real', 'estado']
+    fields = ['material', 'proveedor', 'fecha_salida', 'fecha_llegada_estimada', 'fecha_llegada_real', 'estado', 'cantidad', 'nota', 'producto_especifico']
 
 @admin.register(ProductoEspecifico)
 class ProductoEspecificoAdmin(admin.ModelAdmin):

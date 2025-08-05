@@ -23,7 +23,7 @@ class Material(models.Model):
     )
     
     def __str__(self):
-        return self.nombre
+        return f'{self.nombre}'
 
 class Espesor(models.Model):
     id_espesor = models.AutoField(primary_key=True)
@@ -34,7 +34,7 @@ class Espesor(models.Model):
         return f"{self.nombre} - Rev: {self.revestimiento}"
     
     def get_absolute_url(self):
-        return reverse('usuarios:profile_list_rol',
+        return reverse('productos:productos_espesor',
                        args=[self.id_espesor])
 
 class TipoProducto(models.Model):
@@ -57,7 +57,6 @@ class TipoProducto(models.Model):
 class Producto(models.Model):
     id_producto = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=200)
-    precio = models.DecimalField(max_digits=10, decimal_places=2)
     num_habitaciones = models.IntegerField(blank=True, null=True)
     num_banios = models.IntegerField(blank=True, null=True)
     num_plantas = models.IntegerField(blank=True, null=True)
@@ -65,9 +64,6 @@ class Producto(models.Model):
     pared_m2 = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
     suelo_m2 = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
     tejado_m2 = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
-    espesores = models.ManyToManyField(Espesor,
-                                       related_name='productos',
-                                       blank=True)
     tipo_productos = models.ManyToManyField(TipoProducto,
                                             related_name='productos')
     imagen = models.ImageField(upload_to='products/%Y/%m/%d',
@@ -76,12 +72,31 @@ class Producto(models.Model):
     def __str__(self):
         return f"{self.nombre}"
 
+class ProductoEspesor(models.Model):
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE, related_name='precios_espesor')
+    espesor = models.ForeignKey(Espesor, on_delete=models.CASCADE, related_name='precios_producto')
+    precio = models.DecimalField(max_digits=10, decimal_places=2)
+
+    class Meta:
+        unique_together = ('producto', 'espesor')
+
+    def __str__(self):
+        return f"{self.producto.nombre} - {self.espesor.nombre}: {self.precio}€"
+
 class EstadoCliente(models.Model):
     nombre = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200)
 
     def __str__(self):
         return self.nombre
+    
+    def get_absolute_url(self):
+        return reverse('productos:clientes_estado',
+                       args=[self.slug])
+    
+    def get_absolute_url_list(self):
+        return reverse('productos:clientes_lista_estado',
+                       args=[self.slug])
 
 class Cliente(models.Model):
     id_cliente = models.AutoField(primary_key=True)
@@ -164,8 +179,8 @@ class ProductoEspecifico(models.Model):
 
 class Ubicacion(models.Model):
     id_ubicacion = models.AutoField(primary_key=True)
-    latitud = models.DecimalField(max_digits=9, decimal_places=6)
-    longitud = models.DecimalField(max_digits=9, decimal_places=6)
+    latitud = models.DecimalField(max_digits=20, decimal_places=15, blank=True, null=True)
+    longitud = models.DecimalField(max_digits=20, decimal_places=15, blank=True, null=True)
     producto_especifico = models.ForeignKey(
         ProductoEspecifico,
         on_delete=models.CASCADE,

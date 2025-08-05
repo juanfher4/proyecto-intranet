@@ -1,3 +1,10 @@
+@view-transition {
+    navigation: auto;
+}
+
+::view-transition-group(*) {
+    animation-duration: .3s;
+}
 
 *:not(.modal-dialog) {
     text-decoration: none !important;
@@ -233,7 +240,7 @@ html, body {
     margin-top: 1rem !important;
 }
 
-.inicio section {
+.inicio a {
     border: 1px solid #5b4a32;
     border-radius: 12px;
     margin-top: 10px !important;
@@ -243,8 +250,7 @@ html, body {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.inicio section:hover {
-    transform: scale(.995);
+.inicio a:hover {
     box-shadow: 0 1px 8px rgba(0, 0, 0, 0.275);
     border: 1px solid #553300;
 }
@@ -258,7 +264,6 @@ html, body {
 }
 
 .inicio section:hover .info {
-    margin: 2px !important;
     box-shadow: rgba(0, 0, 0, 0.312) 0px 2px 4px 0px inset;
 }
 
@@ -271,11 +276,12 @@ html, body {
 .producto-pred .ordens {
     display: flex;
     min-height: 100vh;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .producto-pred .card-producto {
     position: relative;
-    left: -6%;
     width: 300px;
     height: 370px;
     transition: 0.3s ease-out;
@@ -383,11 +389,19 @@ html, body {
 }
 
 .prod_esp img {
-    max-width: 250px;
     border: 3px solid #5B4A32;
     box-shadow: 5px 5px 20px -7px #5B4A32;
     border-radius: 8px;
     padding: 1px;
+    display: block;
+    margin: 0 auto;
+    min-width: 150px;
+    min-height: 150px;
+    max-width: 300px;
+    max-height: 250px;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
 }
 
 .prod_esp .detalles {
@@ -541,11 +555,16 @@ input:focus-visible {
     min-width: -webkit-fill-available;
 }
 
-.profiles .all {
-    background-color: #5b4a32;
-    border: 1px solid #5B4A32;
+.all {
+    background-color: #5b4a32 !important;
+    border: 1px solid #5B4A32 !important;
     color: #fff;
     transition: .2s;
+}
+
+.all:hover {
+    background-color: #fff !important;
+    color: #5B4A32 !important;
 }
 
 .profiles .all:hover {
@@ -712,12 +731,29 @@ input:focus-visible {
 }
 
 .productos img {
+    transition: .2s !important;
     box-shadow: 5px 5px 20px -7px #5B4A32;
     height: 120px;
 }
 
+.productos .card:hover img {
+    box-shadow: 5px 10px 20px -3px #5B4A32;
+}
+
 .productos .card:hover .card-title {
     text-shadow: 0px 2px 4px #5b4a328b;
+}
+
+.filtros {
+    border: 1px solid #5B4A32;
+    border-radius: 8px;
+    margin-bottom: 20px !important;
+    margin-top: 20px !important;
+}
+
+.filtros h3 {
+    color: #5B4A32;
+    border-bottom: 1px solid #5B4A32;
 }
 
 /* Añadir producto */
@@ -791,4 +827,15 @@ input:focus-visible {
         max-width: none;
     }
 
+}
+
+input {
+    border: 1px solid #ced4da !important;
+    border-radius: 0.25rem !important;
+    padding: 0.375rem 0.75rem !important;
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+    color: #495057 !important;
+    background-color: #fff !important;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out !important;
 }

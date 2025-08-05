@@ -42,3 +42,7 @@ class Profile(models.Model):
     def get_absolute_url(self):
         return reverse('productos:clientes_comercial',
                        args=[self.id])
+    
+    def get_absolute_url_list(self):
+        return reverse('productos:clientes_lista_comercial',
+                       args=[self.id])

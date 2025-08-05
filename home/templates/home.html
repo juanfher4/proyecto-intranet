@@ -6,19 +6,20 @@
 
 {% block content %}
 <div class="container-pred">
-    <nav aria-label="Page navigation example">
-        <ul class="pagination pagination-sm justify-content-center mt-3">
-          <li class="page-item active" aria-current="page">
-            <span class="page-link">Inicio</span>
-          </li>
-          <li class="page-item"><a class="page-link" href="{% url 'home:tasks' %}">Tareas</a></li>
-        </ul>
-    </nav>
-    <div class="cont inicio">
-      <div class="row align-items-stretch">
-        <div class="col-md-6 d-flex">
-          <section class="inicio-ordenes p-2 flex-fill">
-            <a href="{% url 'productos:ordenes' %}" class="text-decoration-none text-dark">
+  <nav aria-label="Page navigation example">
+    <ul class="pagination pagination-sm justify-content-center mt-3">
+      <li class="page-item active" aria-current="page">
+        <span class="page-link">Inicio</span>
+      </li>
+      <li class="page-item"><a class="page-link" href="{% url 'home:tasks' %}">Tareas</a></li>
+    </ul>
+    <a href="{% url 'productos:aniadir_producto_especifico' %}" class="btn btn-primary">Añadir producto específico</a>
+  </nav>
+  <div class="cont inicio">
+    <div class="row align-items-stretch">
+      <div class="col-md-6 d-flex">
+        <a href="{% url 'productos:ordenes' %}" class="text-decoration-none text-dark flex-fill">
+          <section class="inicio-ordenes p-2">
               <h2>Órdenes</h2>
               <div class="info">
                 <ul>
@@ -34,12 +35,12 @@
                   {% endfor %}
                 </ul>
               </div>
-            </a>
           </section>
-        </div>
-        <div class="col-md-6 d-flex">
-          <section class="inicio-visitas p-2 flex-fill">
-            <a href="{% url 'productos:visitas' %}" class="text-decoration-none text-dark">
+        </a>
+      </div>
+      <div class="col-md-6 d-flex">
+        <a href="{% url 'productos:visitas' %}" class="text-decoration-none text-dark flex-fill">
+          <section class="inicio-visitas p-2">
             <h2>Visitas</h2>
             <div class="info">
               {% for visita in visitas %}
@@ -53,12 +54,12 @@
                 <hr>
               {% endfor %}
             </div>
-            </a>
           </section>
-        </div>
-        <div class="col-md-6 d-flex">
-          <section class="inicio-acabadas p-2 flex-fill">
-            <a href="{% url 'productos:acabadas' %}" class="text-decoration-none text-dark">
+        </a>
+      </div>
+      <div class="col-md-6 d-flex">
+        <a href="{% url 'productos:acabadas' %}" class="text-decoration-none text-dark flex-fill">
+          <section class="inicio-acabadas p-2">
             <h2>Acabadas</h2>
             <div class="info">
               {% for acabada in acabadas %}
@@ -72,12 +73,12 @@
                 <hr>
               {% endfor %}
             </div>
-            </a>
           </section>
-        </div>
-        <div class="col-md-6 d-flex">
-          <section class="inicio-seniales p-2 flex-fill">
-            <a href="{% url 'productos:seniales' %}" class="text-decoration-none text-dark">
+        </a>
+      </div>
+      <div class="col-md-6 d-flex">
+        <a href="{% url 'productos:seniales' %}" class="text-decoration-none text-dark flex-fill">
+          <section class="inicio-seniales p-2">
             <h2>Señales</h2>
             <div class="info">
               {% for senial in seniales %}
@@ -91,10 +92,10 @@
                 <hr>
               {% endfor %}
             </div>
-            </a>
           </section>
-        </div>
+        </a>
       </div>
     </div>
+  </div>
 </div>
 {% endblock %}

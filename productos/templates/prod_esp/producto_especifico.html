@@ -11,7 +11,8 @@
     <div class="col-12 producto_esp">
       <div class="row">
         <div class="col-lg-4 col-sm-6 col-12 imagen">
-          <img src="{% if prod_esp.producto.imagen %}{{ prod_esp.producto.imagen.url }}{% else %}{% static 'img/logo.png' %}{% endif %}" class="img" alt="{{ prod_esp.producto.nombre }}">
+          <img src="{% if prod_esp.producto.imagen %}{{ prod_esp.producto.imagen.url }}{% else %}{% static 'img/logo.png' %}{% endif %}" class="img" alt="{{ prod_esp.producto.nombre }}" 
+          style="view-transition-name: id-{{ prod_esp.id_prod_espe }}">
         </div>
         <div class="col-lg-4 col-sm-6 col-12">
           <div class="row detalles">
@@ -35,10 +36,43 @@
               <p>Estado: </p>
               <span>{{ prod_esp.estado }}</span>
             </div>
+            <div class="col-12">
+              <a class="btn btn-primary" href="{% url 'productos:editar_producto_especifico' prod_esp.id_prod_espe %}">Editar</a>
+              <a class="btn btn-secondary" href="{% url 'home:home' %}">Volver</a>
+              <!-- Botón modal para borrar -->
+              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  Borrar
+              </button>
+              <!-- Modal -->
+
+              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <h1 class="modal-title fs-5" id="exampleModalLabel">Borrar producto</h1>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                              ¿Estás seguro/a?
+                          </div>
+                          <div class="modal-footer">
+                              <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cerrar</button>
+                              <form action="{% url 'productos:borrar_producto_especifico' prod_esp.id_prod_espe %}" method="POST">
+                                  {% csrf_token %}
+                                  <button class="btn btn-danger" type="submit">Borrar</button>
+                              </form>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+            </div>
           </div>
         </div>
         <div class="col-lg-4 col-12 mapa">
-
+          <div class="mapa">
+            
+          </div>
         </div>
       </div>
     </div>
@@ -52,9 +86,45 @@
             </button>
           </h2>
           <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-            <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item’s accordion body.</div>
+            <div class="accordion-body">
+              <form method="post" action="">
+                {% csrf_token %}
+                {{ form_envio_producto.as_p }}
+                <button type="submit" class="btn btn-primary">Añadir</button>
+              </form>
+            </div>
           </div>
         </div>        
+      </div>
+      <div class="table-responsive mt-3">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Proveedor</th>
+              <th>Fecha salida</th>
+              <th>Fecha llegada estimada</th>
+              <th>Fecha llegada real</th>
+              <th>Estado</th>
+              <th>Cantidad</th>
+              <th>Nota</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for envio in envio_producto %}
+            <tr>
+              <td>{{ envio.producto }}</td>
+              <td>{{ envio.proveedor }}</td>
+              <td>{{ envio.fecha_salida|date:"d/m/Y" }}</td>
+              <td>{{ envio.fecha_llegada_estimado|date:"d/m/Y" }}</td>
+              <td>{{ envio.fecha_llegada_real|date:"d/m/Y" }}</td>
+              <td>{{ envio.estado }}</td>
+              <td>{{ envio.cantidad }}</td>
+              <td>{{ envio.nota }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
     </div>
     <div class="col-md-6 col-12 prod_esp_hijo">
@@ -67,9 +137,45 @@
             </button>
           </h2>
           <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-            <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the second item’s accordion body. Let’s imagine this being filled with some actual content.</div>
+            <div class="accordion-body">
+              <form method="post" action="">
+                {% csrf_token %}
+                {{ form_envio_material.as_p }}
+                <button type="submit" class="btn btn-primary">Añadir</button>
+              </form>
+            </div>
           </div>
         </div>
+      </div>
+      <div class="table-responsive mt-3">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Material</th>
+              <th>Proveedor</th>
+              <th>Fecha salida</th>
+              <th>Fecha llegada estimada</th>
+              <th>Fecha llegada real</th>
+              <th>Estado</th>
+              <th>Cantidad</th>
+              <th>Nota</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for envio in envio_material %}
+            <tr>
+              <td>{{ envio.material }}</td>
+              <td>{{ envio.proveedor }}</td>
+              <td>{{ envio.fecha_salida|date:"d/m/Y" }}</td>
+              <td>{{ envio.fecha_llegada_estimado|date:"d/m/Y" }}</td>
+              <td>{{ envio.fecha_llegada_real|date:"d/m/Y" }}</td>
+              <td>{{ envio.estado }}</td>
+              <td>{{ envio.cantidad }}</td>
+              <td>{{ envio.nota }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

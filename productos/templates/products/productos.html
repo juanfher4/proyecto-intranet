@@ -10,29 +10,108 @@
     <div class="row">
         <!-- Filtros -->
         <div class="col-lg-3 col-12">
-
+            <!-- Botón para añadir un producto -->
             <a href="{% url 'productos:crear_producto' %}" class="btn btn-primary mt-3">Añadir producto</a>
+            <!-- Filtros -->
+            <div class="filtros p-3">
+                <h3>Filtros</h3>
+                
+                <!-- Filtro por Espesor -->
+                <h4 class="pt-2 pb-2">Espesor</h4>
+                <ul class="list-group pt-1">
+                    <a href="{% url 'productos:productos' %}" class="all list-group-item {% if not espesor %}active{% endif %}">Todos</a>
+                    {% for esp in espesores %}
+                        <a class="list-group-item {% if espesor and espesor.id_espesor == esp.id_espesor %}active{% endif %}" href="{{ esp.get_absolute_url }}">
+                            {{ esp.nombre }}{% if esp.revestimiento %} + Rev{% endif %}
+                        </a>
+                    {% endfor %}
+                </ul>
 
+                <!-- Filtro por Habitaciones -->
+                <h4 class="pt-2 pb-2">Habitaciones</h4>
+                <ul class="list-group pt-1">
+                    <a href="{% url 'productos:productos' %}" class="all list-group-item {% if not filtros.num_habitaciones %}active{% endif %}">Todas</a>
+                    {% for h in habitaciones %}
+                        <a class="list-group-item {% if filtros.num_habitaciones == h|stringformat:"s" %}active{% endif %}"
+                        href="?num_habitaciones={{ h }}{% if filtros.num_banios %}&num_banios={{ filtros.num_banios }}{% endif %}{% if filtros.num_plantas %}&num_plantas={{ filtros.num_plantas }}{% endif %}{% if filtros.num_cocina %}&num_cocina={{ filtros.num_cocina }}{% endif %}{% if filtros.tipo_productos %}&tipo_productos={{ filtros.tipo_productos }}{% endif %}">
+                            {{ h }}
+                        </a>
+                    {% endfor %}
+                </ul>
+
+                <!-- Filtro por Baños -->
+                <h4 class="pt-2 pb-2">Baños</h4>
+                <ul class="list-group pt-1">
+                    <a href="{% url 'productos:productos' %}" class="all list-group-item {% if not filtros.num_banios %}active{% endif %}">Todos</a>
+                    {% for b in banios %}
+                        <a class="list-group-item {% if filtros.num_banios == b|stringformat:"s" %}active{% endif %}"
+                        href="?num_banios={{ b }}{% if filtros.num_habitaciones %}&num_habitaciones={{ filtros.num_habitaciones }}{% endif %}{% if filtros.num_plantas %}&num_plantas={{ filtros.num_plantas }}{% endif %}{% if filtros.num_cocina %}&num_cocina={{ filtros.num_cocina }}{% endif %}{% if filtros.tipo_productos %}&tipo_productos={{ filtros.tipo_productos }}{% endif %}">
+                            {{ b }}
+                        </a>
+                    {% endfor %}
+                </ul>
+
+                <!-- Filtro por Plantas -->
+                <h4 class="pt-2 pb-2">Plantas</h4>
+                <ul class="list-group pt-1">
+                    <a href="{% url 'productos:productos' %}" class="all list-group-item {% if not filtros.num_plantas %}active{% endif %}">Todas</a>
+                    {% for p in plantas %}
+                        <a class="list-group-item {% if filtros.num_plantas == p|stringformat:"s" %}active{% endif %}"
+                        href="?num_plantas={{ p }}{% if filtros.num_habitaciones %}&num_habitaciones={{ filtros.num_habitaciones }}{% endif %}{% if filtros.num_banios %}&num_banios={{ filtros.num_banios }}{% endif %}{% if filtros.num_cocina %}&num_cocina={{ filtros.num_cocina }}{% endif %}{% if filtros.tipo_productos %}&tipo_productos={{ filtros.tipo_productos }}{% endif %}">
+                            {{ p }}
+                        </a>
+                    {% endfor %}
+                </ul>
+
+                <!-- Filtro por Cocinas -->
+                <h4 class="pt-2 pb-2">Cocinas</h4>
+                <ul class="list-group pt-1">
+                    <a href="{% url 'productos:productos' %}" class="all list-group-item {% if not filtros.num_cocina %}active{% endif %}">Todas</a>
+                    {% for c in cocinas %}
+                        <a class="list-group-item {% if filtros.num_cocina == c|stringformat:"s" %}active{% endif %}"
+                        href="?num_cocina={{ c }}{% if filtros.num_habitaciones %}&num_habitaciones={{ filtros.num_habitaciones }}{% endif %}{% if filtros.num_banios %}&num_banios={{ filtros.num_banios }}{% endif %}{% if filtros.num_plantas %}&num_plantas={{ filtros.num_plantas }}{% endif %}{% if filtros.tipo_productos %}&tipo_productos={{ filtros.tipo_productos }}{% endif %}">
+                            {{ c }}
+                        </a>
+                    {% endfor %}
+                </ul>
+
+                <!-- Filtro por Tipo de Producto -->
+                <h4 class="pt-2 pb-2">Tipo de producto</h4>
+                <ul class="list-group pt-1">
+                    <a href="{% url 'productos:productos' %}" class="all list-group-item {% if not filtros.tipo_productos %}active{% endif %}">Todos</a>
+                    {% for tipo in tipos %}
+                        <a class="list-group-item {% if filtros.tipo_productos == tipo.slug %}active{% endif %}"
+                        href="?tipo_productos={{ tipo.slug }}{% if filtros.num_habitaciones %}&num_habitaciones={{ filtros.num_habitaciones }}{% endif %}{% if filtros.num_banios %}&num_banios={{ filtros.num_banios }}{% endif %}{% if filtros.num_plantas %}&num_plantas={{ filtros.num_plantas }}{% endif %}{% if filtros.num_cocina %}&num_cocina={{ filtros.num_cocina }}{% endif %}">
+                            {{ tipo.nombre }}
+                        </a>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
         <div class="col-lg-9 p-3">
             <!-- Navegación vista -->
             <!-- Vista cartas -->
             <div class="row text-center vista-cartas align-items-stretch">
                 {% for producto in productos %}
-                    <div class="col-lg-3 col-md-4 col-6 p-1 d-flex">
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12 p-1 d-flex">
                         <a href="{% url 'productos:edit_producto' producto.id_producto %}" class="flex-fill text-decoration-none text-dark">
                             <div class="card h-100">
                                 <img src="{% if producto.imagen %}{{ producto.imagen.url }}{% else %}{% static 'img/casa.jpg' %}{% endif %}" class="card-img-top" alt="{{ producto.nombre }}">
                                 <div class="card-text p-2">
                                     <h5 class="card-title p-2">{{ producto.nombre }}</h5>
                                     <i>
-                                        {% for espesore in producto.espesores.all %}
-                                            {{ espesore.nombre }} {% if espesore.revestimiento == False %}{% else %}Rev{% endif %}{% if not forloop.last %}, {% endif %}
+                                        {% for precio_espesor in producto.precios_espesor.all %}
+                                            <li>
+                                                {{ precio_espesor.espesor.nombre }}{% if precio_espesor.espesor.revestimiento %} (rev){% endif %}: 
+                                                {{ precio_espesor.precio }} €
+                                            </li>
                                         {% endfor %}
                                     </i>
                                     <p class="card-text p-1">
-                                        <strong>$</strong>
-                                        {{ producto.precio }}
+                                        <strong>Tipo: </strong>
+                                        {% for tipo in producto.tipo_productos.all %}
+                                            {{ tipo.nombre }}{% if not forloop.last %}, {% endif %}
+                                        {% endfor %}
                                     </p>
                                     <p class="card-text p-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24" width="18" height="18" class="icono ms-1">

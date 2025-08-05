@@ -8,17 +8,28 @@
 <div class="container-pred clientes">
     <div class="row">
         <div class="col-lg-2 col-12">
-            
+            <!-- Botón para añadir un cliente -->
             <a href="{% url 'productos:crear_cliente' %}" class="btn btn-primary mt-3">Añadir cliente</a>
+            <!-- Filtros -->
+            <div class="filtros p-3">
+                <h3>Filtros</h3>
+                    
+                <h4 class="pt-2 pb-2">Comerciales</h4>
+                <ul class="list-group pt-1">
+                    <a href="{% url 'productos:clientes_lista' %}" class="all list-group-item {% if not comercial %}active{% endif %}">Todos</a>
+                    {% for comerc in comerciales %}
+                        <a class="r {% if comercial == comerc.nombre %}active{% endif %}" href="{{ comerc.get_absolute_url_list }}">{{ comerc.user.first_name }} {{ comerc.user.last_name }}</a>
+                    {% endfor %}
+                </ul>
 
-            <h3 class="my-4">Comercial</h3>
-            <ul class="list-group pt-1">
-                <a href="{% url 'productos:clientes_lista' %}" class="all list-group-item {% if not comercial %}active{% endif %}">Todos</a>
-                {% for comerc in comerciales %}
-                    <a class="r {% if comercial == comerc.nombre %}active{% endif %}" href="{{ comerc.get_absolute_url }}">{{ comerc.user.first_name }} {{ comerc.user.last_name }}</a>
-                {% endfor %}
-            </ul>
-
+                <h4 class="pt-2 pb-2">Estados</h4>
+                <ul class="list-group pt-1">
+                    <a href="{% url 'productos:clientes_lista' %}" class="all list-group-item {% if not estado %}active{% endif %}">Todos</a>
+                    {% for est in estados %}
+                        <a class="r {% if estado.slug == est.slug %}active{% endif %}" href="{{ est.get_absolute_url_list }}">{{ est.nombre }}</a>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
         <div class="col-lg-10">
             <!-- Navegación vista -->

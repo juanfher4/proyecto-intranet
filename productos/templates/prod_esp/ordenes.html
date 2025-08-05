@@ -15,7 +15,16 @@
   </nav>
   <div class="row pt-2">
     <div class="col-lg-2 col-12">
-
+      <!-- Filtro por estado -->
+      <div class="mb-3">
+        <h3 class="my-4">Estado</h3>
+        <ul class="list-group pt-1">
+          <a href="{% url 'productos:ordenes' %}" class="all list-group-item {% if not estado_seleccionado %}active{% endif %}">Todos</a>
+          {% for estado in estados %}
+            <a class="r {% if estado.slug == estado_seleccionado %}active{% endif %}" href="{% url 'productos:ordenes_estado' estado.slug %}">{{ estado.nombre }}</a>
+          {% endfor %}
+        </ul>
+      </div>
     </div>
     <div class="col-lg-10 ordens">
       <!-- Video para el css de esta parte https://www.youtube.com/watch?v=jZyC46DezZ0 -->
@@ -24,7 +33,8 @@
           <div class="card-contain">
             <div class="card-producto">
               <div class="imgbox">
-                <img src="{% if orden.producto.imagen %}{{ orden.producto.imagen.url }}{% else %}{% static 'img/logo.png' %}{% endif %}" class="card-img-top" alt="{{ orden.producto.nombre }}">
+                <img src="{% if orden.producto.imagen %}{{ orden.producto.imagen.url }}{% else %}{% static 'img/logo.png' %}{% endif %}" class="card-img-top" alt="{{ orden.producto.nombre }}" 
+                style="view-transition-name: id-{{ orden.id_prod_espe }};">
               </div>
               <div class="contenido {% if orden.estado.slug == 'reserva' %}reserva{% elif orden.estado.slug == 'enviado' %}enviado{% elif orden.estado.slug == 'en-construccion' %}en-construccion{% endif %}">
                 <h4>{{ orden.producto }} | {{ orden.cliente }} | {{ orden.montador }}</h4>
