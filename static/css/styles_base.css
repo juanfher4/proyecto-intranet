@@ -778,6 +778,19 @@ input:focus-visible {
     margin: 1px !important;
 }
 
+/* Mapa */
+
+#mapid {
+  height: 80vh;
+  border: 3px solid #5B4A32;
+  border-radius: 10px;
+}
+
+#mapid .leaflet-marker-icon, #mapid .leaflet-marker-shadow {
+    margin-left: -12px !important;
+    margin-top: -41px !important;
+}
+
 /* Medias screen */
 
 @media screen and (max-width: 990px) {

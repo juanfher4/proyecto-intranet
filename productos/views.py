@@ -289,9 +289,31 @@ def seniales(request, estado_slug=None):
 def producto_especifico(request, producto_especifico_id):
     prod_esp = get_object_or_404(ProductoEspecifico,
                                 id_prod_espe=producto_especifico_id)
+    
     ubi = Ubicacion.objects.filter(producto_especifico=prod_esp)
+
     envio_producto = EnvioProducto.objects.filter(producto_especifico=prod_esp)
     envio_material = EnvioMaterial.objects.filter(producto_especifico=prod_esp)
+    
+    if request.method == "POST":
+        if 'producto' in request.POST:
+            form_envio_producto = EnvioProductoForm(request.POST)
+            if form_envio_producto.is_valid():
+                envio = form_envio_producto.save(commit=False)
+                envio.producto_especifico = prod_esp
+                envio.save()
+                return redirect('productos:producto_especifico', producto_especifico_id=prod_esp.id_prod_espe)
+        elif 'material' in request.POST:
+            form_envio_material = EnvioMaterialForm(request.POST)
+            if form_envio_material.is_valid():
+                envio = form_envio_material.save(commit=False)
+                envio.producto_especifico = prod_esp
+                envio.save()
+                return redirect('productos:producto_especifico', producto_especifico_id=prod_esp.id_prod_espe)
+    else:
+        form_envio_producto = EnvioProductoForm()
+        form_envio_material = EnvioMaterialForm()
+
     return render(request, 'prod_esp/producto_especifico.html', {
         'prod_esp': prod_esp,
         'ubi': ubi,
@@ -352,3 +374,17 @@ def borrar_producto_especifico(request, producto_especifico_id):
     if request.method == 'POST':
         prod_esp.delete()
         return redirect('home:home')
+
+@login_required
+def borrar_envio_producto_especifico(request, id_envio):
+    envio_producto_esp = get_object_or_404(EnvioProducto, id_envio=id_envio)
+    if request.method == 'POST':
+        envio_producto_esp.delete()
+        return redirect('productos:producto_especifico', producto_especifico_id=envio_producto_esp.producto_especifico.id_prod_espe)
+
+@login_required
+def borrar_envio_material_especifico(request, id_envio):
+    envio_material_esp = get_object_or_404(EnvioMaterial, id_envio=id_envio)
+    if request.method == 'POST':
+        envio_material_esp.delete()
+        return redirect('productos:producto_especifico', producto_especifico_id=envio_material_esp.producto_especifico.id_prod_espe)

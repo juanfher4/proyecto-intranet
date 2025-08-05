@@ -21,6 +21,8 @@
               <span>{{ prod_esp.producto.nombre }}</span>
               <p>Cliente: </p>
               <span>{{ prod_esp.cliente.nombre }}</span>
+              <p>Comercial: </p>
+              <span>{{ prod_esp.cliente.comercial }}</span>
               <p>Montador: </p>
               <span>{{ prod_esp.montador.nombre }}</span>
               <p>Precio: </p>
@@ -30,7 +32,7 @@
               <p>Inicio montaje: </p>
               <span>{{ prod_esp.fecha_inicio_montaje|date:"d/m/Y" }}</span>
               <p>Montaje acabado estimado: </p>
-              <span>{{ prod_esp.fecha_acabado_montaje_estimado|date:"d/m/Y" }}</span>
+              <span>{{ prod_esp.fecha_acabado_montaje_estimada|date:"d/m/Y" }}</span>
               <p>Montaje acabado: </p>
               <span>{{ prod_esp.fecha_acabado_montaje|date:"d/m/Y" }}</span>
               <p>Estado: </p>
@@ -40,12 +42,12 @@
               <a class="btn btn-primary" href="{% url 'productos:editar_producto_especifico' prod_esp.id_prod_espe %}">Editar</a>
               <a class="btn btn-secondary" href="{% url 'home:home' %}">Volver</a>
               <!-- Botón modal para borrar -->
-              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#borrar_prod_esp_modal">
                   Borrar
               </button>
               <!-- Modal -->
 
-              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal fade" id="borrar_prod_esp_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog">
                       <div class="modal-content">
                           <div class="modal-header">
@@ -116,11 +118,38 @@
               <td>{{ envio.producto }}</td>
               <td>{{ envio.proveedor }}</td>
               <td>{{ envio.fecha_salida|date:"d/m/Y" }}</td>
-              <td>{{ envio.fecha_llegada_estimado|date:"d/m/Y" }}</td>
+              <td>{{ envio.fecha_llegada_estimada|date:"d/m/Y" }}</td>
               <td>{{ envio.fecha_llegada_real|date:"d/m/Y" }}</td>
               <td>{{ envio.estado }}</td>
               <td>{{ envio.cantidad }}</td>
               <td>{{ envio.nota }}</td>
+              <td><!-- Botón modal para borrar -->
+              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#borrar_envio_prod_esp_modal">
+                  Borrar
+              </button>
+              <!-- Modal -->
+
+              <div class="modal fade" id="borrar_envio_prod_esp_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <h1 class="modal-title fs-5" id="exampleModalLabel">Borrar producto</h1>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                              ¿Estás seguro/a?
+                          </div>
+                          <div class="modal-footer">
+                              <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cerrar</button>
+                              <form action="{% url 'productos:borrar_envio_producto_especifico' envio.id_envio %}" method="POST">
+                                  {% csrf_token %}
+                                  <button class="btn btn-danger" type="submit">Borrar</button>
+                              </form>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              </td>
             </tr>
             {% endfor %}
           </tbody>
@@ -167,11 +196,38 @@
               <td>{{ envio.material }}</td>
               <td>{{ envio.proveedor }}</td>
               <td>{{ envio.fecha_salida|date:"d/m/Y" }}</td>
-              <td>{{ envio.fecha_llegada_estimado|date:"d/m/Y" }}</td>
+              <td>{{ envio.fecha_llegada_estimada|date:"d/m/Y" }}</td>
               <td>{{ envio.fecha_llegada_real|date:"d/m/Y" }}</td>
               <td>{{ envio.estado }}</td>
               <td>{{ envio.cantidad }}</td>
               <td>{{ envio.nota }}</td>
+              <td><!-- Botón modal para borrar -->
+              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#borrar_envio_mat_esp_modal">
+                  Borrar
+              </button>
+              <!-- Modal -->
+
+              <div class="modal fade" id="borrar_envio_mat_esp_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <h1 class="modal-title fs-5" id="exampleModalLabel">Borrar producto</h1>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                              ¿Estás seguro/a?
+                          </div>
+                          <div class="modal-footer">
+                              <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cerrar</button>
+                              <form action="{% url 'productos:borrar_envio_material_especifico' envio.id_envio %}" method="POST">
+                                  {% csrf_token %}
+                                  <button class="btn btn-danger" type="submit">Borrar</button>
+                              </form>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              </td>
             </tr>
             {% endfor %}
           </tbody>

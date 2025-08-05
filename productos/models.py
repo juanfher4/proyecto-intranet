@@ -175,7 +175,7 @@ class ProductoEspecifico(models.Model):
     )
 
     def __str__(self):
-        return f"Producto de {self.cliente.nombre} montado por {self.montador.nombre}"
+        return f'"{self.producto.nombre}". {self.cliente}'
 
 class Ubicacion(models.Model):
     id_ubicacion = models.AutoField(primary_key=True)
@@ -221,9 +221,7 @@ class EnvioProducto(models.Model):
     producto_especifico = models.ForeignKey(
         ProductoEspecifico,
         on_delete=models.CASCADE,
-        related_name='envios_producto',
-        blank=True,
-        null=True
+        related_name='envios_producto'
     )
 
     def __str__(self):
