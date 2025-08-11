@@ -13,7 +13,8 @@
         <div class="login-container">
             <div class="login-header">
                 <h1>INTRANET</h1>
-                <p>¡Bienvenido!</p>
+                <h3>BALTICASA</h3>
+                <p>¡Buenas!</p>
             </div>
             {% if form.errors %}
                 <div class="alert alert-danger">
@@ -32,6 +33,11 @@
                 </div>
                 <button type="submit" class="btn w-100">Entrar</button>
             </form>
+            <i>
+                <a href="{% url 'usuarios:password_reset' %}" class="text-decoration-none text-muted mt-3 d-block text-center">
+                    ¿Olvidaste tu contraseña?
+                </a>
+            </i>
         </div>
     </body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

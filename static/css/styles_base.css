@@ -678,15 +678,6 @@ input:focus-visible {
 
 /* clientes_lista */
 
-.table-responsive {
-    overflow-x: auto;
-    white-space: nowrap;
-}
-
-.table {
-    overflow-x: auto;
-    white-space: nowrap;
-}
 
 .table th, .table tr {
     font-size: 14px;
@@ -824,6 +815,11 @@ input:focus-visible {
         display: block !important;
     }
 
+    .table th, .table td {
+        font-size: 10px;
+        padding: 3px;
+    }
+
 }
 
 @media screen and (max-width: 600px) {
@@ -838,6 +834,10 @@ input:focus-visible {
         
     .prod_esp .prod_esp_hijo {
         max-width: none;
+    }
+
+    .container-main {
+        overflow-x: scroll;
     }
 
 }

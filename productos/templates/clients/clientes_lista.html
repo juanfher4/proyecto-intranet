@@ -42,51 +42,49 @@
                 </li>
             </ul>
             <!-- Vista Lista -->
-            <div class="row vista-lista my-3">
-                <div class="">
-                    <div class="table-responsive">
-                        <table class="table table-striped-columns table-hover table-bordered">
-                            <caption>
-                                Lista clientes
-                            </caption>
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Nombre</th>
-                                    <th>Comercial</th>
-                                    <th>Teléfono</th>
-                                    <th>Correo</th>
-                                    <th>Ciudad</th>
-                                    <th>Fecha de contacto</th>
-                                    <th>Vía de entrada</th>
-                                    <th>Opciones</th>
+            <div class="vista-lista my-3">
+                <div class="scroll-wrapper">
+                    <table class="table table-striped-columns table-hover table-bordered">
+                        <caption>
+                            Lista clientes
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre</th>
+                                <th>Comercial</th>
+                                <th>Teléfono</th>
+                                <th>Correo</th>
+                                <th>Ciudad</th>
+                                <th>Fecha de contacto</th>
+                                <th>Vía de entrada</th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lista_clientes">
+                            {% for cliente in clientes %}
+                                <tr class="
+                                {% if cliente.estado.slug == 'interesado' %} interesado table-primary 
+                                {% elif cliente.estado.slug == 'visita' %} visita table-danger
+                                {% elif cliente.estado.slug == 'comprando' %} comprando table-success 
+                                {% elif cliente.estado.slug == 'postventa' %} postventa table-warning 
+                                {% else %} table-secondary {% endif %}
+                                ">
+                                    <td>{{ cliente.id_cliente }}</td>
+                                    <td>{{ cliente.nombre }}</td>
+                                    <td>{{ cliente.comercial }}</td>
+                                    <td>{{ cliente.telefono }}</td>
+                                    <td>{{ cliente.correo }}</td>
+                                    <td>{{ cliente.ciudad }}</td>
+                                    <td>{{ cliente.fecha_contacto }}</td>
+                                    <td>{{ cliente.via_entrada }}</td>
+                                    <td>
+                                        <a href="{% url 'productos:edit_cliente' cliente.id_cliente %}" class="btn btn-sm btn-primary"><i class="fa-solid fa-pencil"></i></a>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody id="lista_clientes">
-                                {% for cliente in clientes %}
-                                    <tr class="
-                                    {% if cliente.estado.slug == 'interesado' %} interesado table-primary 
-                                    {% elif cliente.estado.slug == 'visita' %} visita table-danger
-                                    {% elif cliente.estado.slug == 'comprando' %} comprando table-success 
-                                    {% elif cliente.estado.slug == 'postventa' %} postventa table-warning 
-                                    {% else %} table-secondary {% endif %}
-                                    ">
-                                        <td>{{ cliente.id_cliente }}</td>
-                                        <td>{{ cliente.nombre }}</td>
-                                        <td>{{ cliente.comercial }}</td>
-                                        <td>{{ cliente.telefono }}</td>
-                                        <td>{{ cliente.correo }}</td>
-                                        <td>{{ cliente.ciudad }}</td>
-                                        <td>{{ cliente.fecha_contacto }}</td>
-                                        <td>{{ cliente.via_entrada }}</td>
-                                        <td>
-                                            <a href="{% url 'productos:edit_cliente' cliente.id_cliente %}" class="btn btn-sm btn-primary"><i class="fa-solid fa-pencil"></i></a>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
