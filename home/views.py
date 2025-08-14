@@ -6,6 +6,7 @@ from django.db.models import Q
 from .forms import TaskForm
 from .models import Task
 from productos.models import ProductoEspecifico, EnvioProducto, EnvioMaterial, EstadoProducto
+from usuarios.models import Profile
 
 """ 
 Video de consultas con filtros
@@ -45,25 +46,42 @@ def home(request):
                                      slug='pago-parcial')
     seniales = productos_especificos.filter(Q(estado=slug_pago_completo) | Q(estado=slug_pago_parcial))
 
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
     return render(request, 'home.html', {
         'ordenes': ordenes,
         'visitas': visitas,
         'acabadas': acabadas,
-        'seniales': seniales
+        'seniales': seniales,
+        'profile': profile
     })
 
 @login_required
 def tasks(request):
     tasks = Task.objects.filter(user=request.user, datecompleted__isnull=True)
-    return render(request, 'tasks.html', {'tasks': tasks})
+
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
+    return render(request, 'tasks.html', {
+        'tasks': tasks,
+        'profile': profile
+    })
 
 @login_required
 def tasks_completed(request):
     tasks = Task.objects.filter(user=request.user, datecompleted__isnull=False).order_by('-datecompleted')
-    return render(request, 'tasks.html', {'tasks': tasks})
+    
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
+    return render(request, 'tasks.html', {
+        'tasks': tasks,
+        'profile': profile
+    })
 
 @login_required
 def create_task(request):
+
+    profile, created = Profile.objects.get_or_create(user=request.user)
 
     if request.method == 'GET':
         return render(request, "create_task.html", {
@@ -79,15 +97,23 @@ def create_task(request):
         except ValueError:
             return render(request, "create_task.html", {
                 'form': TaskForm,
-                'error': 'Por favor, proporciona datos correctos'
+                'error': 'Por favor, proporciona datos correctos',
+                'profile': profile
             })
         
 @login_required
 def task_detail(request, task_id):
+
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
     if request.method == 'GET':
         task = get_object_or_404(Task, pk=task_id, user=request.user)
         form = TaskForm(instance=task)
-        return render(request, 'task_detail.html', {'task': task, 'form': form})
+        return render(request, 'task_detail.html', {
+            'task': task, 
+            'form': form,
+            'profile': profile
+        })
     else:
         try:
             task = get_object_or_404(Task, pk=task_id, user=request.user)
@@ -95,7 +121,12 @@ def task_detail(request, task_id):
             form.save()
             return redirect('home:tasks')
         except ValueError:
-            return render(request, 'task_detail.html', {'task': task, 'form': form, 'error': 'Error al actualizar la tarea'})
+            return render(request, 'task_detail.html', {
+                'task': task, 
+                'form': form, 
+                'error': 'Error al actualizar la tarea',
+                'profile': profile
+                })
 
 @login_required
 def complete_task(request, task_id):

@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from productos.models import Ubicacion
+from usuarios.models import Profile
 
 def mapa(request):
+
+  profile, created = Profile.objects.get_or_create(user=request.user)
 
   # Fetch all locations from the database
   ubicaciones = Ubicacion.objects.all()
@@ -10,4 +13,9 @@ def mapa(request):
   print(f"Latitudes: {latitudes}")
   print(f"Longitudes: {longitudes}")
 
-  return render(request, 'mapa/mapa.html')
+  return render(request, 'mapa/mapa.html', {
+    'ubicaciones': ubicaciones,
+    'latitudes': latitudes,
+    'longitudes': longitudes,
+    'profile': profile
+  })

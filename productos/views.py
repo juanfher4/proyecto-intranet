@@ -7,8 +7,13 @@ from usuarios.models import Profile, Rol
 from .models import Cliente, EstadoCliente, Producto, Espesor, ProductoEspecifico, Ubicacion, EstadoProducto, EnvioProducto, EnvioMaterial, ProductoEspesor, TipoProducto
 from .forms import ClienteForm, ProductoForm, EnvioProductoForm, EnvioMaterialForm, ProductoEspecificoForm, UbicacionForm, ProductoEspesorForm
 
+from usuarios.models import Profile
+
 @login_required
 def productos(request, espesor_id=None):
+    
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
     espesor = None
     espesores = Espesor.objects.all()
     productos = Producto.objects.all()
@@ -55,15 +60,19 @@ def productos(request, espesor_id=None):
             'num_plantas': num_plantas,
             'num_cocina': num_cocina,
             'tipo_productos': tipo_productos,
-        }
+        },
+        'profile': profile
     })
 
 @login_required
 def crear_producto(request):
     
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
     if request.method == 'GET':
         return render(request, "products/crear_producto.html", {
-            'form': ProductoForm
+            'form': ProductoForm,
+            'profile': profile
         })
     else:
         try:
@@ -74,7 +83,8 @@ def crear_producto(request):
         except ValueError:
             return render(request, "products/crear_producto.html", {
                 'form': ProductoForm,
-                'error': 'Por favor, proporciona datos correctos'
+                'error': 'Por favor, proporciona datos correctos',
+                'profile': profile
             })
 
 @login_required
@@ -116,10 +126,17 @@ def edit_producto(request, producto_id):
 
 @login_required
 def edit_cliente(request, cliente_id):
+    
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
     if request.method == 'GET':
         cliente = get_object_or_404(Cliente, id_cliente=cliente_id)
         form = ClienteForm(instance=cliente)
-        return render(request, 'clients/edit_cliente.html', {'cliente': cliente, 'form': form})
+        return render(request, 'clients/edit_cliente.html', {
+            'cliente': cliente, 
+            'form': form,
+            'profile': profile
+        })
     else:
         try:
             cliente = get_object_or_404(Cliente, id_cliente=cliente_id)
@@ -138,6 +155,9 @@ def borrar_producto(request, producto_id):
 
 @login_required
 def clientes(request, estado_slug=None, comercial_id=None):
+    
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
     estado = None
     comercial = None
     estados = EstadoCliente.objects.all()
@@ -165,10 +185,14 @@ def clientes(request, estado_slug=None, comercial_id=None):
                                                      'estado': estado,
                                                      'estados': estados,
                                                      'comercial': comercial,
-                                                     'comerciales': comerciales})
+                                                     'comerciales': comerciales,
+                                                     'profile': profile})
 
 @login_required
 def clientes_lista(request, estado_slug=None, comercial_id=None):
+    
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
     estado = None
     comercial = None
     estados = EstadoCliente.objects.all()
@@ -196,14 +220,18 @@ def clientes_lista(request, estado_slug=None, comercial_id=None):
                                                             'estado': estado,
                                                             'estados': estados,
                                                             'comercial': comercial,
-                                                            'comerciales': comerciales})
+                                                            'comerciales': comerciales,
+                                                            'profile': profile})
 
 @login_required
 def crear_cliente(request):
     
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
     if request.method == 'GET':
         return render(request, "clients/crear_cliente.html", {
-            'form': ClienteForm
+            'form': ClienteForm,
+            'profile': profile
         })
     else:
         try:
@@ -214,7 +242,8 @@ def crear_cliente(request):
         except ValueError:
             return render(request, "clients/crear_cliente.html", {
                 'form': ClienteForm,
-                'error': 'Por favor, proporciona datos correctos'
+                'error': 'Por favor, proporciona datos correctos',
+                'profile': profile
             })
 
 @login_required
@@ -230,6 +259,9 @@ def borrar_cliente(request, cliente_id):
 """
 @login_required
 def ordenes(request, estado_slug=None):
+    
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
     estado = None
     estados = EstadoProducto.objects.filter(slug__in=['en-construccion', 'enviado', 'reserva'])
     productos_especificos = ProductoEspecifico.objects.all()
@@ -244,30 +276,42 @@ def ordenes(request, estado_slug=None):
         'ordenes': productos_especificos,
         'estado': estado,
         'estados': estados,
+        'profile': profile
     })
 
 @login_required
 def visitas(request):
+    
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
     productos_especificos = ProductoEspecifico.objects.all()
     slug_visita = get_object_or_404(EstadoProducto,
                              slug="visita")
     visitas = productos_especificos.filter(estado=slug_visita)
     return render(request, "prod_esp/visitas.html", {
-        'visitas': visitas
+        'visitas': visitas,
+        'profile': profile
     })
 
 @login_required
 def acabadas(request):
+    
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
     productos_especificos = ProductoEspecifico.objects.all()
     slug_acabado = get_object_or_404(EstadoProducto,
                                      slug='acabado')
     acabadas = productos_especificos.filter(estado=slug_acabado)
     return render(request, 'prod_esp/acabadas.html', {
-        'acabadas': acabadas
+        'acabadas': acabadas,
+        'profile': profile
     })
 
 @login_required
 def seniales(request, estado_slug=None):
+    
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
     estado = None
     estados = EstadoProducto.objects.filter(slug__in=['pago-completo', 'pago-parcial'])
     productos_especificos = ProductoEspecifico.objects.all()
@@ -283,10 +327,14 @@ def seniales(request, estado_slug=None):
         'seniales': productos_especificos,
         'estado': estado,
         'estados': estados,
+        'profile': profile
     })
 
 @login_required
 def producto_especifico(request, producto_especifico_id):
+    
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
     prod_esp = get_object_or_404(ProductoEspecifico,
                                 id_prod_espe=producto_especifico_id)
     
@@ -321,14 +369,19 @@ def producto_especifico(request, producto_especifico_id):
         'envio_material': envio_material,
         'form_envio_producto': EnvioProductoForm,
         'form_envio_material': EnvioMaterialForm,
+        'profile': profile
     })
 
 @login_required
 def aniadir_producto_especifico(request):
+    
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
     if request.method == 'GET':
         return render(request, "prod_esp/aniadir_producto_especifico.html", {
             'form_prod_esp': ProductoEspecificoForm,
             'form_ubicacion': UbicacionForm,
+            'profile': profile
         })
     else:
         try:
@@ -340,11 +393,15 @@ def aniadir_producto_especifico(request):
             return render(request, "prod_esp/aniadir_producto_especifico.html", {
                 'form_prod_esp': ProductoEspecificoForm,
                 'form_ubicacion': UbicacionForm,
-                'error': 'Por favor, proporciona datos correctos'
+                'error': 'Por favor, proporciona datos correctos',
+                'profile': profile
             })
 
 @login_required
 def editar_producto_especifico(request, producto_especifico_id):
+    
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
     if request.method == 'GET':
         prod_esp = get_object_or_404(ProductoEspecifico, id_prod_espe=producto_especifico_id)
         form_prod_esp = ProductoEspecificoForm(instance=prod_esp)
@@ -352,7 +409,8 @@ def editar_producto_especifico(request, producto_especifico_id):
         return render(request, 'prod_esp/editar_producto_especifico.html', {
             'prod_esp': prod_esp, 
             'form_prod_esp': form_prod_esp,
-            'form_ubicacion': form_ubicacion
+            'form_ubicacion': form_ubicacion,
+            'profile': profile
             })
     else:
         try:
@@ -366,7 +424,9 @@ def editar_producto_especifico(request, producto_especifico_id):
                 'prod_esp': prod_esp,
                 'form_prod_esp': form_prod_esp,
                 'form_ubicacion': form_ubicacion,
-                'error': 'Error al actualizar el producto específico'})
+                'error': 'Error al actualizar el producto específico',
+                'profile': profile
+            })
 
 @login_required
 def borrar_producto_especifico(request, producto_especifico_id):

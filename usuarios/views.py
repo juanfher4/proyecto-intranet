@@ -67,11 +67,13 @@ def edit(request):
         profile_form = ProfileEditForm(instance=profile)
     return render(request, 'account/edit.html', {
         'user_form': user_form,
-        'profile_form': profile_form
+        'profile_form': profile_form,
+        'profile': profile
     })
 
 @login_required
 def profile_list(request, rol_slug=None):
+    profile, created = Profile.objects.get_or_create(user=request.user)
     rol = None
     roles = Rol.objects.all()
     profiles = Profile.objects.filter(user__is_active=True)
@@ -85,4 +87,5 @@ def profile_list(request, rol_slug=None):
                   'profiles/list.html',
                   {'rol': rol,
                    'roles': roles,
-                   'profiles': profiles})
+                   'profiles': profiles,
+                   'profile': profile})

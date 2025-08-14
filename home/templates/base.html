@@ -163,8 +163,12 @@
 
                   <a href="{% url 'usuarios:perfil' %}" class="sidebar__element--avatar-a">
                     <li class="sidebar__element sidebar__element--avatar">
-                    
-                      <img src="{% static 'img/juan.jpg' %}" alt="" class="sidebar__icon sidebar__icon--avatar">
+                      
+                      {% if profile.imagen %}
+                        <img src="{{ profile.imagen.url }}" class="card-img-top" alt="{{ profile.user.get_full_name }}" class="sidebar__icon sidebar__icon--avatar">
+                      {% else %}
+                        <img src="{% static 'img/profile.jpg' %}" alt="Foto de perfil por defecto" class="sidebar__icon sidebar__icon--avatar">
+                      {% endif %}
 
                       <div class="sidebar__hide">
                         <h6 class="sidebar__title">{{ user.get_full_name }}</h6>
