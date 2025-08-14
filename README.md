@@ -17,12 +17,3 @@ Este proyecto lo estoy haciendo para mi trabajo final de grado superior *(Desarr
  - Django
 ### Sistema gestor de base de datos
  - Sqlite
-### Despliegue
- - Docker
-
----
-
-## Instalación
-
----
-
