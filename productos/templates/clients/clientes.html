@@ -45,7 +45,7 @@
             <!-- Vista Cartas -->
             <div class="row text-center vista-cartas">
                 {% for cliente in clientes %}
-                    <div class="col-lg-4 col-md-6 d-flex">
+                    <div class="col-lg-4 col-md-6 d-flex cliente-columna">
                         <a href="{% url 'productos:edit_cliente' cliente.id_cliente %}" class="flex-fill text-decoration-none text-dark">
                             <div class="card h-100 
                             {% if cliente.estado.slug == 'interesado' %} interesado border-primary 

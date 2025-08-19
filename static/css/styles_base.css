@@ -22,6 +22,45 @@ html, body {
     overflow: hidden;
 }
 
+.interrogacion {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    z-index: 1000;
+    color: #fff !important;
+}
+
+.offcanvas-interrogacion {
+    transition: transform .3s ease-in-out;
+}
+
+.offcanvas-interrogacion .offcanvas-header {
+    background-color: #e6e6e6 !important;
+    color: #5B4A32 !important;
+    border-bottom: 1px solid #5B4A32 !important;
+}
+
+.offcanvas-interrogacion .offcanvas-header * {
+    color: #5B4A32 !important;
+}
+
+.offcanvas-interrogacion .offcanvas-body {
+    background-color: #f4f4f4 !important;
+    color: #5B4A32 !important;
+}
+
+.offcanvas-interrogacion .offcanvas-body svg {
+    margin-right: 5px !important;
+    fill: #5B4A32 !important;
+}
+
+.offcanvas-interrogacion .offcanvas-body .apartado {
+    box-shadow: 5px 5px 22px -9px rgba(0,0,0,0.6);
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 20px !important;
+}
+
 .header-nav {
     background-color: #5B4A32;
     display: flex;
@@ -37,6 +76,10 @@ html, body {
 
 .header-nav img:hover {
     transform: scale(.9);
+}
+
+.offcanvas-navegacion {
+    transition: transform .3s ease-in-out;
 }
 
 .container-main {
@@ -633,9 +676,11 @@ input:focus-visible {
 
 /* clientes */
 
-.clientes .card {
+.clientes .cliente-columna {
     margin-top: 15px !important;
-    margin-bottom: 15px !important;
+}
+
+.clientes .card {
     font-size: 14px;
     transition: .2s;
 }
@@ -772,9 +817,10 @@ input:focus-visible {
 /* Mapa */
 
 #mapid {
-  height: 80vh;
-  border: 3px solid #5B4A32;
-  border-radius: 10px;
+    height: 80vh;
+    border: 3px solid #5B4A32;
+    border-radius: 10px;
+    z-index: 1 !important;
 }
 
 #mapid .leaflet-marker-icon, #mapid .leaflet-marker-shadow {
@@ -802,6 +848,10 @@ input:focus-visible {
 }
 
 @media screen and (max-width: 750px) {
+
+    .logo-principal {
+        display: none !important;
+    }
     
     .perfil {
         max-width: 350px;
@@ -819,6 +869,11 @@ input:focus-visible {
         font-size: 10px;
         padding: 3px;
     }
+
+    .interrogacion {
+        left: 20px;
+        right: auto;
+}
 
 }
 
