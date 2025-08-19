@@ -16,4 +16,38 @@ Este proyecto lo estoy haciendo para mi trabajo final de grado superior *(Desarr
  - Python
  - Django
 ### Sistema gestor de base de datos
- - Sqlite
+ - Postgres
+
+## Instalación
+
+1. Se crea una carpeta en la cual se va a clonar el repositorio.
+2. Abro una terminal en la carpeta y clono el repositorio:
+```
+git clone git@github.com:juanfher4/proyecto-intranet.git
+```
+3. Entro en la carpeta del repositorio:
+```
+cd .\proyecto-intranet\
+```
+4. Creo un entorno virtual llamado "venv":
+```
+python -m venv venv
+```
+5. Activo el entorno virtual:
+```
+.\venv\Scripts\activate
+```
+6. Hago las migraciones:
+```
+python manage.py makemigrations
+python manage.py migrate
+```
+7. Creo el superusuario y le introduzco los valores:
+```
+python manage.py createsuperuser
+```
+8. Inicio el servidor:
+```
+python manage.py runserver
+```
+9. Entro a esta url: http://127.0.0.1:8000/
